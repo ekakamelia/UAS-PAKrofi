@@ -18,215 +18,228 @@ class _LoginScreenState extends State<LoginScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.white,
-      body: SingleChildScrollView(
-        child: Column(
-          children: [
-            // Header Section
-            Stack(
-              clipBehavior: Clip.none,
-              alignment: Alignment.center,
-              children: [
-                // Header Image
-                Container(
-                  height: 250,
-                  width: double.infinity,
-                  decoration: const BoxDecoration(
-                    color: AppColors.grey,
-                    image: DecorationImage(
-                      image: AssetImage('assets/images/BG.jpg'),
-                      fit: BoxFit.cover,
-                    ),
-                  ),
-                ),
-                // White Arc at bottom
-                Positioned(
-                  bottom: -1,
-                  left: 0,
-                  right: 0,
-                  child: Container(
-                    height: 40,
+      body: SafeArea(
+        child: SingleChildScrollView(
+          child: Column(
+            children: [
+              // Header Section
+              Stack(
+                clipBehavior: Clip.none,
+                alignment: Alignment.center,
+                children: [
+                  // Header Image
+                  Container(
+                    height: 200,
+                    width: double.infinity,
                     decoration: const BoxDecoration(
-                      color: Colors.white,
-                      borderRadius: BorderRadius.only(
-                        topLeft: Radius.circular(60),
-                        topRight: Radius.circular(60),
-                      ),
-                    ),
-                  ),
-                ),
-                // Logo Overlay
-                Positioned(
-                  bottom: -40,
-                  child: Container(
-                    width: 80,
-                    height: 80,
-                    decoration: BoxDecoration(
-                      color: Colors.white,
-                      shape: BoxShape.circle,
-                      boxShadow: [
-                        BoxShadow(
-                          color: Colors.black12,
-                          blurRadius: 10,
-                          offset: Offset(0, 5),
-                        ),
-                      ],
-                    ),
-                    child: ClipOval(
-                      child: Image.asset(
-                        'assets/images/LOGO.png',
+                      color: AppColors.grey,
+                      image: DecorationImage(
+                        image: AssetImage('assets/images/BG.jpg'),
                         fit: BoxFit.cover,
                       ),
                     ),
                   ),
-                ),
-              ],
-            ),
-            
-            const SizedBox(height: 60),
-
-            // Login Form
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 24.0),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    'Login',
-                    style: AppTextStyles.header.copyWith(
-                      color: Colors.black,
-                      fontSize: 28,
-                    ),
-                  ),
-                  
-                  const SizedBox(height: 30),
-
-                  // Email Field
-                  _buildLabel('Email 365'),
-                  TextField(
-                    controller: _emailController,
-                    decoration: InputDecoration(
-                       isDense: true,
-                       contentPadding: const EdgeInsets.symmetric(vertical: 8),
-                       enabledBorder: const UnderlineInputBorder(
-                         borderSide: BorderSide(color: AppColors.primary, width: 2),
-                       ),
-                       focusedBorder: const UnderlineInputBorder(
-                         borderSide: BorderSide(color: AppColors.primary, width: 2),
-                       ),
-                    ),
-                  ),
-
-                  const SizedBox(height: 20),
-
-                  // Password Field
-                  _buildLabel('Password'),
-                  TextField(
-                    controller: _passwordController,
-                    obscureText: _obscurePassword,
-                    decoration: InputDecoration(
-                       isDense: true,
-                       contentPadding: const EdgeInsets.symmetric(vertical: 8),
-                         enabledBorder: const UnderlineInputBorder(
-                         borderSide: BorderSide(color: AppColors.primary, width: 2),
-                       ),
-                       focusedBorder: const UnderlineInputBorder(
-                         borderSide: BorderSide(color: AppColors.primary, width: 2),
-                       ),
-                       suffixIcon: IconButton(
-                         icon: Icon(
-                           _obscurePassword ? Icons.visibility_off_outlined : Icons.visibility_outlined,
-                           color: Colors.black,
-                         ),
-                         onPressed: () {
-                           setState(() {
-                             _obscurePassword = !_obscurePassword;
-                           });
-                         },
-                       ),
-                    ),
-                  ),
-
-                  const SizedBox(height: 40),
-
-                  // Login Button
-                  SizedBox(
-                    width: double.infinity,
-                    height: 50,
-                    child: ElevatedButton(
-                      onPressed: () {
-                         Navigator.pushReplacement(
-                           context, 
-                           MaterialPageRoute(builder: (context) => const DashboardScreen()),
-                         );
-                      },
-                      style: ElevatedButton.styleFrom(
-                        backgroundColor: AppColors.primary,
-                        foregroundColor: Colors.white,
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(25),
+                  // White Arc at bottom
+                  Positioned(
+                    bottom: -1,
+                    left: 0,
+                    right: 0,
+                    child: Container(
+                      height: 30,
+                      decoration: const BoxDecoration(
+                        color: Colors.white,
+                        borderRadius: BorderRadius.only(
+                          topLeft: Radius.circular(40),
+                          topRight: Radius.circular(40),
                         ),
                       ),
-                      child: Text(
-                        'Log In',
-                        style: AppTextStyles.button,
-                      ),
                     ),
                   ),
-
-                  const SizedBox(height: 20),
-
-                  // Bantuan Link
-                  Center(
-                    child: TextButton(
-                      onPressed: () {
-                        showDialog(
-                          context: context,
-                          builder: (context) => AlertDialog(
-                            shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
-                            title: Text('Bantuan Login', style: AppTextStyles.title),
-                            content: Column(
-                              mainAxisSize: MainAxisSize.min,
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                _buildHelpItem(Icons.email, 'Lupa Password?', 'Hubungi admin kampus'),
-                                const SizedBox(height: 12),
-                                _buildHelpItem(Icons.phone, 'Bantuan Teknis', '(022) 123-4567'),
-                                const SizedBox(height: 12),
-                                _buildHelpItem(Icons.chat, 'WhatsApp', '+62 812-3456-7890'),
-                              ],
-                            ),
-                            actions: [
-                              TextButton(
-                                onPressed: () => Navigator.pop(context),
-                                child: Text('Tutup', style: TextStyle(color: AppColors.primary)),
-                              ),
-                            ],
+                  // Logo Overlay
+                  Positioned(
+                    bottom: -35,
+                    child: Container(
+                      width: 70,
+                      height: 70,
+                      decoration: BoxDecoration(
+                        color: Colors.white,
+                        shape: BoxShape.circle,
+                        boxShadow: [
+                          BoxShadow(
+                            color: Colors.black.withAlpha(30),
+                            blurRadius: 8,
+                            offset: const Offset(0, 4),
                           ),
-                        );
-                      },
-                      child: Text(
-                        'Bantuan ?',
-                        style: AppTextStyles.body.copyWith(
-                          color: AppColors.primary,
+                        ],
+                      ),
+                      child: ClipOval(
+                        child: Image.asset(
+                          'assets/images/LOGO.png',
+                          fit: BoxFit.cover,
                         ),
                       ),
                     ),
                   ),
                 ],
               ),
-            ),
-            
-            const SizedBox(height: 40),
+              
+              const SizedBox(height: 50),
 
-            // Bottom Wave
-            SizedBox(
-              height: 100,
-              width: double.infinity,
-              child: CustomPaint(
-                painter: BottomWavePainter(),
+              // Login Form
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 24.0),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      'Login',
+                      style: AppTextStyles.header.copyWith(
+                        color: Colors.black,
+                        fontSize: 26,
+                      ),
+                    ),
+                    
+                    const SizedBox(height: 24),
+
+                    // Email Field
+                    _buildLabel('Email 365'),
+                    const SizedBox(height: 8),
+                    TextField(
+                      controller: _emailController,
+                      decoration: const InputDecoration(
+                         isDense: true,
+                         contentPadding: EdgeInsets.symmetric(vertical: 10),
+                         enabledBorder: UnderlineInputBorder(
+                           borderSide: BorderSide(color: AppColors.primary, width: 2),
+                         ),
+                         focusedBorder: UnderlineInputBorder(
+                           borderSide: BorderSide(color: AppColors.primary, width: 2),
+                         ),
+                      ),
+                    ),
+
+                    const SizedBox(height: 20),
+
+                    // Password Field
+                    _buildLabel('Password'),
+                    const SizedBox(height: 8),
+                    TextField(
+                      controller: _passwordController,
+                      obscureText: _obscurePassword,
+                      decoration: InputDecoration(
+                         isDense: true,
+                         contentPadding: const EdgeInsets.symmetric(vertical: 10),
+                           enabledBorder: const UnderlineInputBorder(
+                           borderSide: BorderSide(color: AppColors.primary, width: 2),
+                         ),
+                         focusedBorder: const UnderlineInputBorder(
+                           borderSide: BorderSide(color: AppColors.primary, width: 2),
+                         ),
+                         suffixIcon: IconButton(
+                           icon: Icon(
+                             _obscurePassword ? Icons.visibility_off_outlined : Icons.visibility_outlined,
+                             color: Colors.black54,
+                             size: 22,
+                           ),
+                           onPressed: () {
+                             setState(() {
+                               _obscurePassword = !_obscurePassword;
+                             });
+                           },
+                         ),
+                      ),
+                    ),
+
+                    const SizedBox(height: 32),
+
+                    // Login Button
+                    SizedBox(
+                      width: double.infinity,
+                      height: 48,
+                      child: ElevatedButton(
+                        onPressed: () {
+                           Navigator.pushReplacement(
+                             context, 
+                             MaterialPageRoute(builder: (context) => const DashboardScreen()),
+                           );
+                        },
+                        style: ElevatedButton.styleFrom(
+                          backgroundColor: AppColors.primary,
+                          foregroundColor: Colors.white,
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(24),
+                          ),
+                        ),
+                        child: Text(
+                          'Log In',
+                          style: AppTextStyles.button,
+                        ),
+                      ),
+                    ),
+
+                    const SizedBox(height: 16),
+
+                    // Bantuan Link
+                    Center(
+                      child: TextButton(
+                        onPressed: () {
+                          showDialog(
+                            context: context,
+                            builder: (context) => AlertDialog(
+                              shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
+                              title: Text('Bantuan Login', style: AppTextStyles.title),
+                              content: Column(
+                                mainAxisSize: MainAxisSize.min,
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  _buildHelpItem(Icons.email, 'Lupa Password?', 'Hubungi admin'),
+                                  const SizedBox(height: 12),
+                                  _buildHelpItem(Icons.phone, 'Telepon', '(022) 123-4567'),
+                                ],
+                              ),
+                              actions: [
+                                TextButton(
+                                  onPressed: () => Navigator.pop(context),
+                                  child: const Text('Tutup', style: TextStyle(color: AppColors.primary)),
+                                ),
+                              ],
+                            ),
+                          );
+                        },
+                        child: Text(
+                          'Bantuan ?',
+                          style: AppTextStyles.body.copyWith(
+                            color: AppColors.primary,
+                          ),
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
               ),
-            ),
-          ],
+              
+              const SizedBox(height: 40),
+
+              // Simple Footer
+              Container(
+                height: 60,
+                width: double.infinity,
+                decoration: const BoxDecoration(
+                  color: AppColors.primary,
+                  borderRadius: BorderRadius.only(
+                    topLeft: Radius.circular(30),
+                    topRight: Radius.circular(30),
+                  ),
+                ),
+                child: Center(
+                  child: Text(
+                    '© 2024 CeLOE',
+                    style: AppTextStyles.body.copyWith(color: Colors.white70, fontSize: 12),
+                  ),
+                ),
+              ),
+            ],
+          ),
         ),
       ),
     );
@@ -236,7 +249,7 @@ class _LoginScreenState extends State<LoginScreen> {
     return Text(
       text,
       style: AppTextStyles.subtitle.copyWith(
-        fontWeight: FontWeight.bold,
+        fontWeight: FontWeight.w600,
         color: AppColors.textSecondary,
       ),
     );
@@ -245,55 +258,18 @@ class _LoginScreenState extends State<LoginScreen> {
   Widget _buildHelpItem(IconData icon, String title, String subtitle) {
     return Row(
       children: [
-        Icon(icon, color: AppColors.primary, size: 24),
-        const SizedBox(width: 12),
-        Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Text(title, style: AppTextStyles.body.copyWith(fontWeight: FontWeight.w600)),
-            Text(subtitle, style: AppTextStyles.subtitle.copyWith(fontSize: 12)),
-          ],
+        Icon(icon, color: AppColors.primary, size: 22),
+        const SizedBox(width: 10),
+        Flexible(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text(title, style: AppTextStyles.body.copyWith(fontWeight: FontWeight.w600)),
+              Text(subtitle, style: AppTextStyles.subtitle.copyWith(fontSize: 11)),
+            ],
+          ),
         ),
       ],
     );
   }
-}
-
-class BottomWavePainter extends CustomPainter {
-  @override
-  void paint(Canvas canvas, Size size) {
-    var paint = Paint()
-      ..color = AppColors.primary
-      ..style = PaintingStyle.fill;
-
-    var path = Path();
-    path.moveTo(0, size.height);
-    path.lineTo(0, size.height * 0.4);
-
-    var firstControlPoint = Offset(size.width * 0.25, -20);
-    var firstEndPoint = Offset(size.width * 0.5, size.height * 0.5);
-    path.quadraticBezierTo(
-      firstControlPoint.dx,
-      firstControlPoint.dy,
-      firstEndPoint.dx,
-      firstEndPoint.dy,
-    );
-
-    var secondControlPoint = Offset(size.width * 0.75, size.height * 1.0);
-    var secondEndPoint = Offset(size.width, size.height * 0.6);
-    path.quadraticBezierTo(
-      secondControlPoint.dx,
-      secondControlPoint.dy,
-      secondEndPoint.dx,
-      secondEndPoint.dy,
-    );
-    
-    path.lineTo(size.width, size.height);
-    path.close();
-
-    canvas.drawPath(path, paint);
-  }
-
-  @override
-  bool shouldRepaint(CustomPainter oldDelegate) => false;
 }
