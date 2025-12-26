@@ -521,3 +521,85 @@ class NotificationData {
     ),
   ];
 }
+
+// Calendar Event Models
+class CalendarEvent {
+  final String id;
+  final String title;
+  final String type; // 'class', 'exam', 'deadline', 'holiday'
+  final DateTime date;
+  final String? time;
+  final String? location;
+
+  const CalendarEvent({
+    required this.id,
+    required this.title,
+    required this.type,
+    required this.date,
+    this.time,
+    this.location,
+  });
+}
+
+class CalendarData {
+  static final List<CalendarEvent> events = [
+    CalendarEvent(
+      id: 'e1',
+      title: 'Kuliah UI/UX',
+      type: 'class',
+      date: DateTime.now(),
+      time: '08:00 - 10:30',
+      location: 'Ruang Lab Komputer 3',
+    ),
+    CalendarEvent(
+      id: 'e2',
+      title: 'Kuliah Sistem Operasi',
+      type: 'class',
+      date: DateTime.now(),
+      time: '13:00 - 15:30',
+      location: 'Ruang Teori 201',
+    ),
+    CalendarEvent(
+      id: 'e3',
+      title: 'Deadline: Tugas UID Android',
+      type: 'deadline',
+      date: DateTime.now().add(const Duration(days: 2)),
+      time: '23:59',
+    ),
+    CalendarEvent(
+      id: 'e4',
+      title: 'UTS Sistem Operasi',
+      type: 'exam',
+      date: DateTime.now().add(const Duration(days: 7)),
+      time: '09:00 - 11:00',
+      location: 'Gedung Ujian Lt.2',
+    ),
+    CalendarEvent(
+      id: 'e5',
+      title: 'Libur Natal',
+      type: 'holiday',
+      date: DateTime(2024, 12, 25),
+    ),
+    CalendarEvent(
+      id: 'e6',
+      title: 'Libur Tahun Baru',
+      type: 'holiday',
+      date: DateTime(2025, 1, 1),
+    ),
+  ];
+
+  static List<CalendarEvent> getEventsForDate(DateTime date) {
+    return events.where((e) => 
+      e.date.year == date.year && 
+      e.date.month == date.month && 
+      e.date.day == date.day
+    ).toList();
+  }
+
+  static List<CalendarEvent> getUpcomingEvents() {
+    final now = DateTime.now();
+    return events.where((e) => e.date.isAfter(now) || 
+      (e.date.year == now.year && e.date.month == now.month && e.date.day == now.day)
+    ).toList()..sort((a, b) => a.date.compareTo(b.date));
+  }
+}

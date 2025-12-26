@@ -5,6 +5,7 @@ import 'package:celeoe/features/auth/login_screen.dart';
 import 'package:celeoe/features/gradebook/gradebook_screen.dart';
 import 'package:celeoe/features/forum/forum_screen.dart';
 import 'package:celeoe/features/cbt/cbt_screen.dart';
+import 'package:celeoe/features/calendar/calendar_screen.dart';
 
 class ProfileScreen extends StatelessWidget {
   const ProfileScreen({super.key});
@@ -143,6 +144,17 @@ class ProfileScreen extends StatelessWidget {
                     Navigator.push(
                       context,
                       MaterialPageRoute(builder: (context) => const CBTScreen()),
+                    );
+                  },
+                ),
+                _buildSettingsTileWithContext(
+                  context: context,
+                  icon: Icons.calendar_month_outlined,
+                  title: 'Kalender Akademik',
+                  onTap: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (context) => const CalendarScreen()),
                     );
                   },
                 ),
