@@ -32,77 +32,108 @@ class MyClassesScreen extends StatelessWidget {
       },
       child: Container(
         margin: const EdgeInsets.only(bottom: 16),
-        padding: const EdgeInsets.all(16),
+        padding: const EdgeInsets.all(20),
         decoration: BoxDecoration(
           color: AppColors.getCardColor(context),
-          borderRadius: BorderRadius.circular(12),
+          borderRadius: BorderRadius.circular(16),
           boxShadow: isDark ? null : [
             BoxShadow(
-              color: Colors.black.withAlpha(10),
-              blurRadius: 4,
-              offset: const Offset(0, 2),
+              color: Colors.black.withAlpha(5),
+              blurRadius: 10,
+              offset: const Offset(0, 4),
             ),
           ],
+          border: isDark ? Border.all(color: Colors.white10) : null,
         ),
-        child: Row(
+        child: Column(
           children: [
-            Container(
-              width: 50,
-              height: 50,
-              decoration: BoxDecoration(
-                color: AppColors.primary.withAlpha(25),
-                borderRadius: BorderRadius.circular(10),
-              ),
-              child: const Icon(Icons.book, color: AppColors.primary, size: 28),
-            ),
-            const SizedBox(width: 16),
-            Expanded(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    course.title,
-                    style: AppTextStyles.body.copyWith(
-                      fontWeight: FontWeight.w600,
-                      color: AppColors.getTextPrimary(context),
-                    ),
-                    maxLines: 2,
-                    overflow: TextOverflow.ellipsis,
+            Row(
+              children: [
+                Container(
+                  width: 56,
+                  height: 56,
+                  decoration: BoxDecoration(
+                    color: AppColors.primary.withAlpha(20),
+                    borderRadius: BorderRadius.circular(14),
                   ),
-                  const SizedBox(height: 4),
-                  Text(
-                    course.instructor,
-                    style: AppTextStyles.subtitle.copyWith(
-                      fontSize: 12,
-                      color: AppColors.getTextSecondary(context),
-                    ),
-                  ),
-                  const SizedBox(height: 8),
-                  Row(
+                  child: const Icon(Icons.book_outlined, color: AppColors.primary, size: 30),
+                ),
+                const SizedBox(width: 16),
+                Expanded(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Expanded(
-                        child: LinearProgressIndicator(
-                          value: course.progress,
-                          backgroundColor: isDark ? Colors.white24 : AppColors.grey,
-                          color: AppColors.green,
-                          minHeight: 6,
-                          borderRadius: BorderRadius.circular(3),
-                        ),
-                      ),
-                      const SizedBox(width: 8),
                       Text(
-                        '${(course.progress * 100).toInt()}%',
+                        course.title,
+                        style: AppTextStyles.body.copyWith(
+                          fontWeight: FontWeight.bold,
+                          color: AppColors.getTextPrimary(context),
+                          fontSize: 16,
+                        ),
+                        maxLines: 2,
+                        overflow: TextOverflow.ellipsis,
+                      ),
+                      const SizedBox(height: 6),
+                      Text(
+                        course.instructor,
                         style: AppTextStyles.subtitle.copyWith(
-                          fontSize: 11,
+                          fontSize: 13,
                           color: AppColors.getTextSecondary(context),
                         ),
                       ),
                     ],
                   ),
-                ],
-              ),
+                ),
+              ],
             ),
-            Icon(Icons.chevron_right, color: AppColors.getTextSecondary(context)),
+            const SizedBox(height: 16),
+            Row(
+              children: [
+                Expanded(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Text(
+                            'Progres Kelas',
+                            style: AppTextStyles.subtitle.copyWith(fontSize: 12),
+                          ),
+                          Text(
+                            '${(course.progress * 100).toInt()}%',
+                            style: AppTextStyles.body.copyWith(
+                              fontSize: 12,
+                              fontWeight: FontWeight.bold,
+                              color: AppColors.primary,
+                            ),
+                          ),
+                        ],
+                      ),
+                      const SizedBox(height: 8),
+                      ClipRRect(
+                        borderRadius: BorderRadius.circular(4),
+                        child: LinearProgressIndicator(
+                          value: course.progress,
+                          backgroundColor: isDark ? Colors.white10 : Colors.grey[200],
+                          color: AppColors.primary,
+                          minHeight: 8,
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+                const SizedBox(width: 16),
+                Container(
+                  padding: const EdgeInsets.all(8),
+                  decoration: BoxDecoration(
+                    color: AppColors.background,
+                    shape: BoxShape.circle,
+                  ),
+                  child: Icon(Icons.chevron_right, color: AppColors.primary, size: 20),
+                ),
+              ],
+            ),
           ],
         ),
       ),

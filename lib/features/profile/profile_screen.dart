@@ -34,10 +34,33 @@ class ProfileScreen extends StatelessWidget {
             ),
             child: Column(
               children: [
-                CircleAvatar(
-                  radius: 50,
-                  backgroundColor: Colors.white,
-                  backgroundImage: const AssetImage('assets/images/foto profil.jpeg'),
+                Container(
+                  width: 100,
+                  height: 100,
+                  decoration: BoxDecoration(
+                    shape: BoxShape.circle,
+                    color: Colors.white,
+                    border: Border.all(color: Colors.white, width: 3),
+                    boxShadow: [
+                      BoxShadow(
+                        color: Colors.black.withOpacity(0.2),
+                        blurRadius: 10,
+                        offset: const Offset(0, 4),
+                      ),
+                    ],
+                  ),
+                  child: ClipOval(
+                    child: Image.asset(
+                      'assets/images/foto profil.jpeg',
+                      fit: BoxFit.cover,
+                      errorBuilder: (context, error, stackTrace) {
+                        return Container(
+                          color: Colors.grey[200],
+                          child: Icon(Icons.person, size: 50, color: Colors.grey[400]),
+                        );
+                      },
+                    ),
+                  ),
                 ),
                 const SizedBox(height: 16),
                 Text(
@@ -302,18 +325,22 @@ class ProfileScreen extends StatelessWidget {
         children: [
           Icon(icon, color: AppColors.primary, size: 24),
           const SizedBox(width: 16),
-          Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Text(
-                title,
-                style: AppTextStyles.subtitle.copyWith(fontSize: 12),
-              ),
-              Text(
-                value,
-                style: AppTextStyles.body.copyWith(fontWeight: FontWeight.w600),
-              ),
-            ],
+          Expanded(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  title,
+                  style: AppTextStyles.subtitle.copyWith(fontSize: 12),
+                ),
+                Text(
+                  value,
+                  style: AppTextStyles.body.copyWith(fontWeight: FontWeight.w600),
+                  overflow: TextOverflow.ellipsis,
+                  maxLines: 2,
+                ),
+              ],
+            ),
           ),
         ],
       ),

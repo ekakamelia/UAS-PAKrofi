@@ -10,60 +10,101 @@ class CourseDetailScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: AppColors.background,
       body: CustomScrollView(
         slivers: [
           // App Bar with Course Info
           SliverAppBar(
-            expandedHeight: 200,
+            expandedHeight: 180,
             pinned: true,
             backgroundColor: AppColors.primary,
             iconTheme: const IconThemeData(color: Colors.white),
             flexibleSpace: FlexibleSpaceBar(
+              titlePadding: const EdgeInsets.all(20),
+              centerTitle: false,
               title: Text(
                 course.title,
-                style: AppTextStyles.title.copyWith(color: Colors.white, fontSize: 14),
+                style: AppTextStyles.title.copyWith(
+                  color: Colors.white, 
+                  fontSize: 18, // Slightly bigger
+                  fontWeight: FontWeight.bold,
+                  shadows: [
+                    Shadow(offset: const Offset(0, 1), blurRadius: 4, color: Colors.black.withAlpha(50))
+                  ]
+                ),
                 maxLines: 2,
                 overflow: TextOverflow.ellipsis,
               ),
-              background: Container(
-                decoration: const BoxDecoration(
-                  gradient: LinearGradient(
-                    colors: [AppColors.primary, AppColors.primaryDark],
-                    begin: Alignment.topLeft,
-                    end: Alignment.bottomRight,
-                  ),
-                ),
-                child: Padding(
-                  padding: const EdgeInsets.all(20),
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.end,
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      const SizedBox(height: 50),
-                      Text(
-                        'Dosen: ${course.instructor}',
-                        style: AppTextStyles.subtitle.copyWith(color: Colors.white70),
+              background: Stack(
+                fit: StackFit.expand,
+                children: [
+                  Container(
+                    decoration: const BoxDecoration(
+                      gradient: LinearGradient(
+                        colors: [AppColors.primary, AppColors.primaryDark],
+                        begin: Alignment.topLeft,
+                        end: Alignment.bottomRight,
                       ),
-                    ],
+                    ),
                   ),
-                ),
+                  Positioned(
+                    right: -30,
+                    top: -30,
+                    child: Icon(
+                      Icons.class_outlined,
+                      size: 200,
+                      color: Colors.white.withAlpha(15),
+                    ),
+                  ),
+                ],
               ),
             ),
           ),
 
-          // Course Progress
+          // Instructor Info (New Position)
           SliverToBoxAdapter(
             child: Container(
-              margin: const EdgeInsets.all(16),
-              padding: const EdgeInsets.all(16),
+              padding: const EdgeInsets.all(20),
+              color: Colors.white,
+              child: Row(
+                children: [
+                  CircleAvatar(
+                    backgroundColor: AppColors.primary.withAlpha(20),
+                    child: const Icon(Icons.person, color: AppColors.primary),
+                  ),
+                  const SizedBox(width: 16),
+                  Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        'Dosen Pengampu',
+                        style: AppTextStyles.subtitle.copyWith(fontSize: 12),
+                      ),
+                      Text(
+                        course.instructor,
+                        style: AppTextStyles.body.copyWith(fontWeight: FontWeight.w600),
+                      ),
+                    ],
+                  ),
+                ],
+              ),
+            ),
+          ),
+
+          // Progress Section
+          SliverToBoxAdapter(
+            child: Container(
+              margin: const EdgeInsets.symmetric(horizontal: 20, vertical: 16),
+              padding: const EdgeInsets.all(20),
               decoration: BoxDecoration(
                 color: Colors.white,
-                borderRadius: BorderRadius.circular(12),
+                borderRadius: BorderRadius.circular(16),
+                border: Border.all(color: Colors.grey.shade100),
                 boxShadow: [
                   BoxShadow(
-                    color: Colors.black.withAlpha(10),
-                    blurRadius: 4,
-                    offset: const Offset(0, 2),
+                    color: Colors.black.withAlpha(5),
+                    blurRadius: 10,
+                    offset: const Offset(0, 4),
                   ),
                 ],
               ),
@@ -73,20 +114,25 @@ class CourseDetailScreen extends StatelessWidget {
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      Text('Progress Pembelajaran', style: AppTextStyles.title.copyWith(fontSize: 16)),
                       Text(
-                        '${(course.progress * 100).toInt()}%',
-                        style: AppTextStyles.title.copyWith(color: AppColors.primary),
+                        'Progress Kelas',
+                        style: AppTextStyles.body.copyWith(fontWeight: FontWeight.w600),
+                      ),
+                      Text(
+                         '${(course.progress * 100).toInt()}%',
+                         style: AppTextStyles.title.copyWith(color: AppColors.primary),
                       ),
                     ],
                   ),
-                  const SizedBox(height: 8),
-                  LinearProgressIndicator(
-                    value: course.progress,
-                    backgroundColor: AppColors.grey,
-                    color: AppColors.green,
-                    minHeight: 8,
-                    borderRadius: BorderRadius.circular(4),
+                  const SizedBox(height: 12),
+                  ClipRRect(
+                    borderRadius: BorderRadius.circular(6),
+                    child: LinearProgressIndicator(
+                      value: course.progress,
+                      backgroundColor: AppColors.grey.withAlpha(50),
+                      color: AppColors.primary,
+                      minHeight: 12,
+                    ),
                   ),
                 ],
               ),
@@ -96,29 +142,57 @@ class CourseDetailScreen extends StatelessWidget {
           // Description
           SliverToBoxAdapter(
             child: Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 16),
+              padding: const EdgeInsets.symmetric(horizontal: 20),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text('Deskripsi', style: AppTextStyles.title),
-                  const SizedBox(height: 8),
-                  Text(course.description, style: AppTextStyles.body),
-                  const SizedBox(height: 20),
-                  Text('Materi Pembelajaran', style: AppTextStyles.title),
+                  Text(
+                    'Deskripsi',
+                    style: AppTextStyles.title.copyWith(fontSize: 18),
+                  ),
                   const SizedBox(height: 12),
+                  Text(
+                    course.description,
+                    style: AppTextStyles.body.copyWith(
+                      height: 1.6, // Better line height for readability
+                      color: Colors.grey[700],
+                    ),
+                  ),
+                  const SizedBox(height: 32),
+                  Row(
+                    children: [
+                      Container(
+                        padding: const EdgeInsets.all(8),
+                        decoration: BoxDecoration(
+                           color: AppColors.primary.withAlpha(20),
+                           borderRadius: BorderRadius.circular(8)
+                        ),
+                        child: const Icon(Icons.folder_open, color: AppColors.primary, size: 20),
+                      ),
+                      const SizedBox(width: 12),
+                      Text(
+                        'Materi Pembelajaran',
+                        style: AppTextStyles.title.copyWith(fontSize: 18),
+                      ),
+                    ],
+                  ),
+                  const SizedBox(height: 16),
                 ],
               ),
             ),
           ),
 
           // Materials List
-          SliverList(
-            delegate: SliverChildBuilderDelegate(
-              (context, index) {
-                final material = course.materials[index];
-                return _buildMaterialItem(context, material);
-              },
-              childCount: course.materials.length,
+          SliverPadding(
+            padding: const EdgeInsets.symmetric(horizontal: 20),
+            sliver: SliverList(
+              delegate: SliverChildBuilderDelegate(
+                (context, index) {
+                  final material = course.materials[index];
+                  return _buildMaterialItem(context, material, index);
+                },
+                childCount: course.materials.length,
+              ),
             ),
           ),
 
@@ -131,75 +205,80 @@ class CourseDetailScreen extends StatelessWidget {
     );
   }
 
-  Widget _buildMaterialItem(BuildContext context, CourseMaterial material) {
+  Widget _buildMaterialItem(BuildContext context, CourseMaterial material, int index) {
     IconData icon;
     Color iconColor;
+    Color bgColor;
 
     switch (material.type) {
       case 'video':
-        icon = Icons.play_circle_filled;
-        iconColor = Colors.red;
+        icon = Icons.play_arrow_rounded; // Cleaner icon
+        iconColor = const Color(0xFFFF5252);
+        bgColor = const Color(0xFFFFEBEE);
         break;
       case 'pdf':
-        icon = Icons.picture_as_pdf;
-        iconColor = Colors.orange;
+        icon = Icons.article_rounded;
+        iconColor = const Color(0xFFFF9800);
+        bgColor = const Color(0xFFFFF3E0);
         break;
       default:
-        icon = Icons.link;
-        iconColor = Colors.blue;
+        icon = Icons.link_rounded;
+        iconColor = const Color(0xFF2196F3);
+        bgColor = const Color(0xFFE3F2FD);
     }
 
-    return InkWell(
-      onTap: () {
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text('Membuka: ${material.title}')),
-        );
-      },
-      child: Container(
-        margin: const EdgeInsets.symmetric(horizontal: 16, vertical: 6),
-        padding: const EdgeInsets.all(16),
-        decoration: BoxDecoration(
-          color: Colors.white,
-          borderRadius: BorderRadius.circular(12),
-          boxShadow: [
-            BoxShadow(
-              color: Colors.black.withAlpha(10),
-              blurRadius: 4,
-              offset: const Offset(0, 2),
-            ),
-          ],
-        ),
-        child: Row(
-          children: [
-            Container(
-              width: 48,
-              height: 48,
-              decoration: BoxDecoration(
-                color: iconColor.withAlpha(30),
-                borderRadius: BorderRadius.circular(8),
+    return Container(
+      margin: const EdgeInsets.only(bottom: 12), // Reduced margin slightly
+      decoration: BoxDecoration(
+        color: Colors.white,
+        borderRadius: BorderRadius.circular(12),
+        border: Border.all(color: Colors.grey.shade100), // Subtle border
+      ),
+      child: InkWell(
+        borderRadius: BorderRadius.circular(12),
+        onTap: () {
+          ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(content: Text('Membuka: ${material.title}')),
+          );
+        },
+        child: Padding(
+          padding: const EdgeInsets.all(16),
+          child: Row(
+            children: [
+              Container(
+                width: 48,
+                height: 48,
+                decoration: BoxDecoration(
+                  color: bgColor,
+                  borderRadius: BorderRadius.circular(10),
+                ),
+                child: Icon(icon, color: iconColor, size: 24),
               ),
-              child: Icon(icon, color: iconColor, size: 28),
-            ),
-            const SizedBox(width: 12),
-            Expanded(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    material.title,
-                    style: AppTextStyles.body.copyWith(fontWeight: FontWeight.w600),
-                  ),
-                  Text(
-                    material.description,
-                    style: AppTextStyles.subtitle.copyWith(fontSize: 12),
-                    maxLines: 1,
-                    overflow: TextOverflow.ellipsis,
-                  ),
-                ],
+              const SizedBox(width: 16),
+              Expanded(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      material.title,
+                      style: AppTextStyles.body.copyWith(
+                        fontWeight: FontWeight.w600,
+                        fontSize: 14,
+                      ),
+                    ),
+                    const SizedBox(height: 4),
+                    Text(
+                      material.description,
+                      style: AppTextStyles.subtitle.copyWith(fontSize: 12),
+                      maxLines: 1,
+                      overflow: TextOverflow.ellipsis,
+                    ),
+                  ],
+                ),
               ),
-            ),
-            Icon(Icons.chevron_right, color: AppColors.textSecondary),
-          ],
+              const Icon(Icons.arrow_forward_ios_rounded, color: Colors.grey, size: 14),
+            ],
+          ),
         ),
       ),
     );

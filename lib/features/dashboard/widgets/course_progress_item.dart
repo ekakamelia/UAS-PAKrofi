@@ -9,43 +9,56 @@ class CourseProgressItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.only(bottom: 16.0),
+    return Container(
+      margin: const EdgeInsets.only(bottom: 12.0),
       child: Row(
         children: [
-          // Course Icon placeholder
+          // Course Icon
           Container(
-            width: 40,
-            height: 40,
+            width: 48,
+            height: 48,
             decoration: BoxDecoration(
-              color: AppColors.background,
-              borderRadius: BorderRadius.circular(8),
+              color: AppColors.primary.withAlpha(20),
+              borderRadius: BorderRadius.circular(12),
             ),
-            child: Icon(Icons.book, color: AppColors.textSecondary),
+            child: const Icon(Icons.book_outlined, color: AppColors.primary, size: 24),
           ),
-          const SizedBox(width: 12),
+          const SizedBox(width: 16),
           Expanded(
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text(
-                  course.title,
-                  style: AppTextStyles.body.copyWith(fontWeight: FontWeight.w600),
-                  maxLines: 1,
-                  overflow: TextOverflow.ellipsis,
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Expanded(
+                      child: Text(
+                        course.title,
+                        style: AppTextStyles.body.copyWith(fontWeight: FontWeight.bold),
+                        maxLines: 1,
+                        overflow: TextOverflow.ellipsis,
+                      ),
+                    ),
+                    const SizedBox(width: 8),
+                    Text(
+                      '${(course.progress * 100).toInt()}%',
+                      style: AppTextStyles.subtitle.copyWith(
+                        fontSize: 12, 
+                        fontWeight: FontWeight.bold,
+                        color: AppColors.primary
+                      ),
+                    ),
+                  ],
                 ),
-                const SizedBox(height: 4),
-                LinearProgressIndicator(
-                  value: course.progress,
-                  backgroundColor: AppColors.grey,
-                  color: AppColors.green, // Use green as per common UI patterns for progress
-                  minHeight: 6,
-                  borderRadius: BorderRadius.circular(3),
-                ),
-                const SizedBox(height: 4),
-                Text(
-                  '${(course.progress * 100).toInt()}% Selesai',
-                  style: AppTextStyles.subtitle.copyWith(fontSize: 10),
+                const SizedBox(height: 8),
+                ClipRRect(
+                  borderRadius: BorderRadius.circular(4),
+                  child: LinearProgressIndicator(
+                    value: course.progress,
+                    backgroundColor: AppColors.grey,
+                    color: AppColors.green,
+                    minHeight: 8,
+                  ),
                 ),
               ],
             ),
