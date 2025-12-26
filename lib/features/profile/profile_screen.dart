@@ -3,6 +3,7 @@ import 'package:celeoe/core/theme.dart';
 import 'package:celeoe/core/dummy_data.dart';
 import 'package:celeoe/features/auth/login_screen.dart';
 import 'package:celeoe/features/gradebook/gradebook_screen.dart';
+import 'package:celeoe/features/forum/forum_screen.dart';
 
 class ProfileScreen extends StatelessWidget {
   const ProfileScreen({super.key});
@@ -119,6 +120,17 @@ class ProfileScreen extends StatelessWidget {
                     Navigator.push(
                       context,
                       MaterialPageRoute(builder: (context) => const GradebookScreen()),
+                    );
+                  },
+                ),
+                _buildSettingsTileWithContext(
+                  context: context,
+                  icon: Icons.forum_outlined,
+                  title: 'Forum Diskusi',
+                  onTap: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (context) => const ForumScreen()),
                     );
                   },
                 ),

@@ -140,3 +140,110 @@ class GradeData {
     return grades.where((g) => g.semester == semester).toList();
   }
 }
+
+// Forum Models
+class ForumThread {
+  final String id;
+  final String courseId;
+  final String courseName;
+  final String title;
+  final String author;
+  final DateTime createdAt;
+  final int replyCount;
+
+  const ForumThread({
+    required this.id,
+    required this.courseId,
+    required this.courseName,
+    required this.title,
+    required this.author,
+    required this.createdAt,
+    required this.replyCount,
+  });
+}
+
+class ForumMessage {
+  final String id;
+  final String threadId;
+  final String author;
+  final String content;
+  final DateTime createdAt;
+  final bool isCurrentUser;
+
+  const ForumMessage({
+    required this.id,
+    required this.threadId,
+    required this.author,
+    required this.content,
+    required this.createdAt,
+    this.isCurrentUser = false,
+  });
+}
+
+class ForumData {
+  static final List<ForumThread> threads = [
+    ForumThread(
+      id: '1',
+      courseId: 'uiux',
+      courseName: 'Desain UI/UX',
+      title: 'Diskusi: Prinsip Heuristik Nielsen',
+      author: 'Dr. Budi Santoso',
+      createdAt: DateTime.now().subtract(const Duration(hours: 3)),
+      replyCount: 12,
+    ),
+    ForumThread(
+      id: '2',
+      courseId: 'mobile',
+      courseName: 'Pemrograman Mobile',
+      title: 'Tanya: Cara implementasi State Management Flutter',
+      author: 'Ahmad Rizki',
+      createdAt: DateTime.now().subtract(const Duration(days: 1)),
+      replyCount: 8,
+    ),
+    ForumThread(
+      id: '3',
+      courseId: 'os',
+      courseName: 'Sistem Operasi',
+      title: 'Tugas UTS: Diskusi Algoritma Penjadwalan',
+      author: 'Dr. Siti Aminah',
+      createdAt: DateTime.now().subtract(const Duration(days: 2)),
+      replyCount: 24,
+    ),
+  ];
+
+  static final List<ForumMessage> messages = [
+    ForumMessage(
+      id: 'm1',
+      threadId: '1',
+      author: 'Dr. Budi Santoso',
+      content: 'Selamat pagi semua. Mari kita diskusikan tentang 10 prinsip heuristik Nielsen. Silakan share pemahaman kalian.',
+      createdAt: DateTime.now().subtract(const Duration(hours: 3)),
+    ),
+    ForumMessage(
+      id: 'm2',
+      threadId: '1',
+      author: 'Dandy Candra Pratama',
+      content: 'Selamat pagi Pak. Menurut saya prinsip pertama tentang Visibility of System Status sangat penting karena user harus selalu tahu apa yang sedang terjadi.',
+      createdAt: DateTime.now().subtract(const Duration(hours: 2)),
+      isCurrentUser: true,
+    ),
+    ForumMessage(
+      id: 'm3',
+      threadId: '1',
+      author: 'Rina Wulandari',
+      content: 'Saya setuju dengan Dandy. Contohnya seperti loading indicator saat aplikasi memproses sesuatu.',
+      createdAt: DateTime.now().subtract(const Duration(hours: 1)),
+    ),
+    ForumMessage(
+      id: 'm4',
+      threadId: '1',
+      author: 'Dr. Budi Santoso',
+      content: 'Bagus sekali! Ada yang mau menambahkan contoh lain?',
+      createdAt: DateTime.now().subtract(const Duration(minutes: 30)),
+    ),
+  ];
+
+  static List<ForumMessage> getMessagesByThread(String threadId) {
+    return messages.where((m) => m.threadId == threadId).toList();
+  }
+}
