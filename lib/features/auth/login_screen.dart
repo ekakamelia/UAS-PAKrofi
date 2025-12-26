@@ -28,13 +28,26 @@ class _LoginScreenState extends State<LoginScreen> {
               children: [
                 // 1. Header Image (Building)
                 Container(
-                  height: 250,
+                  height: 280,
                   width: double.infinity,
                   decoration: const BoxDecoration(
                     color: AppColors.grey, // Fallback color
                     image: DecorationImage(
                       image: AssetImage('assets/images/BG.jpg'),
                       fit: BoxFit.cover,
+                      alignment: Alignment.topCenter,
+                    ),
+                  ),
+                  child: Container(
+                    decoration: BoxDecoration(
+                      gradient: LinearGradient(
+                        begin: Alignment.topCenter,
+                        end: Alignment.bottomCenter,
+                        colors: [
+                          Colors.transparent,
+                          Colors.black.withAlpha(30),
+                        ],
+                      ),
                     ),
                   ),
                 ),
