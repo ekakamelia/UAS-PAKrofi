@@ -22,7 +22,6 @@ class _NotificationsScreenState extends State<NotificationsScreen> {
   }
 
   void _handleNotificationTap(AppNotification notification, int index) {
-    // Mark as read
     setState(() {
       _notifications[index] = AppNotification(
         id: notification.id,
@@ -34,7 +33,6 @@ class _NotificationsScreenState extends State<NotificationsScreen> {
       );
     });
 
-    // Navigate based on type
     switch (notification.type) {
       case 'assignment':
         Navigator.push(
@@ -69,22 +67,28 @@ class _NotificationsScreenState extends State<NotificationsScreen> {
   }
 
   void _showAnnouncementDialog(AppNotification notification) {
+    final isDark = AppColors.isDark(context);
     showDialog(
       context: context,
       builder: (context) => AlertDialog(
+        backgroundColor: AppColors.getCardColor(context),
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
         title: Row(
           children: [
             const Icon(Icons.campaign, color: AppColors.primary),
             const SizedBox(width: 8),
-            Text(notification.title, style: AppTextStyles.title),
+            Text(notification.title, style: AppTextStyles.title.copyWith(
+              color: AppColors.getTextPrimary(context),
+            )),
           ],
         ),
-        content: Text(notification.message, style: AppTextStyles.body),
+        content: Text(notification.message, style: AppTextStyles.body.copyWith(
+          color: AppColors.getTextPrimary(context),
+        )),
         actions: [
           TextButton(
             onPressed: () => Navigator.pop(context),
-            child: Text('Tutup', style: TextStyle(color: AppColors.primary)),
+            child: const Text('Tutup', style: TextStyle(color: AppColors.primary)),
           ),
         ],
       ),
@@ -114,11 +118,11 @@ class _NotificationsScreenState extends State<NotificationsScreen> {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Icon(Icons.notifications_off_outlined, size: 60, color: AppColors.grey),
+            Icon(Icons.notifications_off_outlined, size: 60, color: AppColors.getTextSecondary(context)),
             const SizedBox(height: 16),
             Text(
               'Tidak ada notifikasi baru',
-              style: AppTextStyles.subtitle,
+              style: AppTextStyles.subtitle.copyWith(color: AppColors.getTextSecondary(context)),
             ),
           ],
         ),
@@ -129,7 +133,6 @@ class _NotificationsScreenState extends State<NotificationsScreen> {
 
     return Column(
       children: [
-        // Mark all as read button
         if (hasUnread)
           Padding(
             padding: const EdgeInsets.fromLTRB(16, 16, 16, 0),
@@ -160,6 +163,7 @@ class _NotificationsScreenState extends State<NotificationsScreen> {
   }
 
   Widget _buildNotificationItem(AppNotification notification, int index) {
+    final isDark = AppColors.isDark(context);
     IconData icon;
     Color iconColor;
 
@@ -191,12 +195,14 @@ class _NotificationsScreenState extends State<NotificationsScreen> {
         margin: const EdgeInsets.only(bottom: 12),
         padding: const EdgeInsets.all(16),
         decoration: BoxDecoration(
-          color: notification.isRead ? Colors.white : AppColors.primary.withAlpha(10),
+          color: notification.isRead 
+              ? AppColors.getCardColor(context) 
+              : AppColors.primary.withAlpha(isDark ? 30 : 10),
           borderRadius: BorderRadius.circular(12),
           border: notification.isRead 
               ? null 
               : Border.all(color: AppColors.primary.withAlpha(50)),
-          boxShadow: [
+          boxShadow: isDark ? null : [
             BoxShadow(
               color: Colors.black.withAlpha(10),
               blurRadius: 4,
@@ -228,6 +234,7 @@ class _NotificationsScreenState extends State<NotificationsScreen> {
                           notification.title,
                           style: AppTextStyles.body.copyWith(
                             fontWeight: notification.isRead ? FontWeight.w500 : FontWeight.bold,
+                            color: AppColors.getTextPrimary(context),
                           ),
                         ),
                       ),
@@ -245,7 +252,10 @@ class _NotificationsScreenState extends State<NotificationsScreen> {
                   const SizedBox(height: 4),
                   Text(
                     notification.message,
-                    style: AppTextStyles.subtitle.copyWith(fontSize: 13),
+                    style: AppTextStyles.subtitle.copyWith(
+                      fontSize: 13,
+                      color: AppColors.getTextSecondary(context),
+                    ),
                     maxLines: 2,
                     overflow: TextOverflow.ellipsis,
                   ),
@@ -254,7 +264,10 @@ class _NotificationsScreenState extends State<NotificationsScreen> {
                     children: [
                       Text(
                         _formatTime(notification.createdAt),
-                        style: AppTextStyles.subtitle.copyWith(fontSize: 11),
+                        style: AppTextStyles.subtitle.copyWith(
+                          fontSize: 11,
+                          color: AppColors.getTextSecondary(context),
+                        ),
                       ),
                       const Spacer(),
                       Text(

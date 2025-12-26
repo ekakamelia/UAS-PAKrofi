@@ -6,11 +6,42 @@ class AppColors {
   static const Color primary = Color(0xFFA83232); 
   static const Color primaryDark = Color(0xFF802020);
   static const Color background = Color(0xFFF5F5F5); // Light grey background
+  static const Color backgroundDark = Color(0xFF121212);
+  static const Color cardDark = Color(0xFF1E1E1E);
   static const Color textPrimary = Color(0xFF212121);
   static const Color textSecondary = Color(0xFF757575);
   static const Color white = Colors.white;
   static const Color grey = Color(0xFFE0E0E0);
   static const Color green = Color(0xFF4CAF50); // For progress bars
+  
+  // Helper methods for theme-aware colors
+  static Color getBackground(BuildContext context) {
+    return Theme.of(context).brightness == Brightness.dark 
+        ? backgroundDark 
+        : background;
+  }
+  
+  static Color getCardColor(BuildContext context) {
+    return Theme.of(context).brightness == Brightness.dark 
+        ? cardDark 
+        : white;
+  }
+  
+  static Color getTextPrimary(BuildContext context) {
+    return Theme.of(context).brightness == Brightness.dark 
+        ? Colors.white 
+        : textPrimary;
+  }
+  
+  static Color getTextSecondary(BuildContext context) {
+    return Theme.of(context).brightness == Brightness.dark 
+        ? Colors.white60 
+        : textSecondary;
+  }
+  
+  static bool isDark(BuildContext context) {
+    return Theme.of(context).brightness == Brightness.dark;
+  }
 }
 
 class AppTextStyles {
@@ -43,7 +74,7 @@ class AppTextStyles {
         color: Colors.white,
       );
   
-  static TextStyle get logoText => GoogleFonts.poppins( // Assuming a font for the logo text if not image
+  static TextStyle get logoText => GoogleFonts.poppins(
         fontSize: 32,
         fontWeight: FontWeight.bold,
         color: Colors.white,

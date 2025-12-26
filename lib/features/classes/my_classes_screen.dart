@@ -19,6 +19,8 @@ class MyClassesScreen extends StatelessWidget {
   }
 
   Widget _buildCourseCard(BuildContext context, CourseDetail course) {
+    final isDark = AppColors.isDark(context);
+    
     return InkWell(
       onTap: () {
         Navigator.push(
@@ -32,9 +34,9 @@ class MyClassesScreen extends StatelessWidget {
         margin: const EdgeInsets.only(bottom: 16),
         padding: const EdgeInsets.all(16),
         decoration: BoxDecoration(
-          color: Colors.white,
+          color: AppColors.getCardColor(context),
           borderRadius: BorderRadius.circular(12),
-          boxShadow: [
+          boxShadow: isDark ? null : [
             BoxShadow(
               color: Colors.black.withAlpha(10),
               blurRadius: 4,
@@ -44,7 +46,6 @@ class MyClassesScreen extends StatelessWidget {
         ),
         child: Row(
           children: [
-            // Course Icon
             Container(
               width: 50,
               height: 50,
@@ -61,14 +62,20 @@ class MyClassesScreen extends StatelessWidget {
                 children: [
                   Text(
                     course.title,
-                    style: AppTextStyles.body.copyWith(fontWeight: FontWeight.w600),
+                    style: AppTextStyles.body.copyWith(
+                      fontWeight: FontWeight.w600,
+                      color: AppColors.getTextPrimary(context),
+                    ),
                     maxLines: 2,
                     overflow: TextOverflow.ellipsis,
                   ),
                   const SizedBox(height: 4),
                   Text(
                     course.instructor,
-                    style: AppTextStyles.subtitle.copyWith(fontSize: 12),
+                    style: AppTextStyles.subtitle.copyWith(
+                      fontSize: 12,
+                      color: AppColors.getTextSecondary(context),
+                    ),
                   ),
                   const SizedBox(height: 8),
                   Row(
@@ -76,7 +83,7 @@ class MyClassesScreen extends StatelessWidget {
                       Expanded(
                         child: LinearProgressIndicator(
                           value: course.progress,
-                          backgroundColor: AppColors.grey,
+                          backgroundColor: isDark ? Colors.white24 : AppColors.grey,
                           color: AppColors.green,
                           minHeight: 6,
                           borderRadius: BorderRadius.circular(3),
@@ -85,14 +92,17 @@ class MyClassesScreen extends StatelessWidget {
                       const SizedBox(width: 8),
                       Text(
                         '${(course.progress * 100).toInt()}%',
-                        style: AppTextStyles.subtitle.copyWith(fontSize: 11),
+                        style: AppTextStyles.subtitle.copyWith(
+                          fontSize: 11,
+                          color: AppColors.getTextSecondary(context),
+                        ),
                       ),
                     ],
                   ),
                 ],
               ),
             ),
-            const Icon(Icons.chevron_right, color: AppColors.textSecondary),
+            Icon(Icons.chevron_right, color: AppColors.getTextSecondary(context)),
           ],
         ),
       ),
