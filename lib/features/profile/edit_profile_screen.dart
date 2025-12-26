@@ -95,16 +95,8 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                     children: [
                       CircleAvatar(
                         radius: 55,
-                        backgroundColor: _avatarColors[_selectedAvatarIndex],
-                        child: Text(
-                          _nameController.text.isNotEmpty 
-                              ? _nameController.text[0].toUpperCase()
-                              : 'U',
-                          style: AppTextStyles.header.copyWith(
-                            fontSize: 44,
-                            color: Colors.white,
-                          ),
-                        ),
+                        backgroundColor: Colors.white,
+                        backgroundImage: const AssetImage('assets/images/foto profil.jpeg'),
                       ),
                       Positioned(
                         bottom: 0,
