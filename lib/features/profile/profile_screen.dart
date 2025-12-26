@@ -6,6 +6,10 @@ import 'package:celeoe/features/gradebook/gradebook_screen.dart';
 import 'package:celeoe/features/forum/forum_screen.dart';
 import 'package:celeoe/features/cbt/cbt_screen.dart';
 import 'package:celeoe/features/calendar/calendar_screen.dart';
+import 'package:celeoe/features/settings/settings_notification_screen.dart';
+import 'package:celeoe/features/settings/change_password_screen.dart';
+import 'package:celeoe/features/settings/language_screen.dart';
+import 'package:celeoe/features/settings/help_screen.dart';
 
 class ProfileScreen extends StatelessWidget {
   const ProfileScreen({super.key});
@@ -166,25 +170,49 @@ class ProfileScreen extends StatelessWidget {
                   style: AppTextStyles.title,
                 ),
                 const SizedBox(height: 12),
-                _buildSettingsTile(
+                _buildSettingsTileWithContext(
+                  context: context,
                   icon: Icons.notifications_outlined,
-                  title: 'Notifikasi',
-                  onTap: () {},
+                  title: 'Pengaturan Notifikasi',
+                  onTap: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (context) => const SettingsNotificationScreen()),
+                    );
+                  },
                 ),
-                _buildSettingsTile(
+                _buildSettingsTileWithContext(
+                  context: context,
                   icon: Icons.lock_outline,
                   title: 'Ubah Password',
-                  onTap: () {},
+                  onTap: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (context) => const ChangePasswordScreen()),
+                    );
+                  },
                 ),
-                _buildSettingsTile(
+                _buildSettingsTileWithContext(
+                  context: context,
                   icon: Icons.language_outlined,
                   title: 'Bahasa',
-                  onTap: () {},
+                  onTap: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (context) => const LanguageScreen()),
+                    );
+                  },
                 ),
-                _buildSettingsTile(
+                _buildSettingsTileWithContext(
+                  context: context,
                   icon: Icons.help_outline,
                   title: 'Bantuan',
-                  onTap: () {},
+                  onTap: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (context) => const HelpScreen()),
+                    );
+                  },
                 ),
 
                 const SizedBox(height: 24),
