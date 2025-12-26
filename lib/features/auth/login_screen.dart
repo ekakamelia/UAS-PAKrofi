@@ -33,9 +33,7 @@ class _LoginScreenState extends State<LoginScreen> {
                   decoration: const BoxDecoration(
                     color: AppColors.grey, // Fallback color
                     image: DecorationImage(
-                      image: NetworkImage(
-                        'https://upload.wikimedia.org/wikipedia/commons/thumb/1/1a/Telkom_University_Landmark_Tower.jpg/640px-Telkom_University_Landmark_Tower.jpg',
-                      ), // Using a placeholder URL for Telkom University or generic building
+                      image: AssetImage('assets/images/BG.jpg'),
                       fit: BoxFit.cover,
                     ),
                   ),
@@ -62,8 +60,8 @@ class _LoginScreenState extends State<LoginScreen> {
                   child: Container(
                     width: 80,
                     height: 80,
-                    decoration: const BoxDecoration(
-                      color: AppColors.primary,
+                    decoration: BoxDecoration(
+                      color: Colors.white,
                       shape: BoxShape.circle,
                       boxShadow: [
                          BoxShadow(
@@ -73,12 +71,10 @@ class _LoginScreenState extends State<LoginScreen> {
                         ),
                       ],
                     ),
-                    child: Center(
-                      // Simulating the 'U' logo icon
-                      child: Icon(
-                        Icons.school,
-                        color: Colors.white,
-                        size: 40,
+                    child: ClipOval(
+                      child: Image.asset(
+                        'assets/images/LOGO.png',
+                        fit: BoxFit.cover,
                       ),
                     ),
                   ),
