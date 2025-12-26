@@ -343,3 +343,119 @@ class QuizData {
     ),
   ];
 }
+
+// Course Material Models
+class CourseMaterial {
+  final String id;
+  final String courseId;
+  final String title;
+  final String type; // 'pdf', 'video', 'link'
+  final String description;
+  final String url;
+
+  const CourseMaterial({
+    required this.id,
+    required this.courseId,
+    required this.title,
+    required this.type,
+    required this.description,
+    required this.url,
+  });
+}
+
+class CourseDetail {
+  final String id;
+  final String title;
+  final String instructor;
+  final String description;
+  final List<CourseMaterial> materials;
+  final double progress;
+
+  const CourseDetail({
+    required this.id,
+    required this.title,
+    required this.instructor,
+    required this.description,
+    required this.materials,
+    required this.progress,
+  });
+}
+
+class CourseData {
+  static final List<CourseDetail> courses = [
+    CourseDetail(
+      id: 'uiux',
+      title: 'Desain Tampilan & Pengalaman Pengguna (UI/UX)',
+      instructor: 'Dr. Budi Santoso, M.Kom',
+      description: 'Mata kuliah ini membahas prinsip-prinsip desain antarmuka pengguna dan pengalaman pengguna untuk aplikasi digital.',
+      progress: 0.75,
+      materials: [
+        CourseMaterial(
+          id: 'm1',
+          courseId: 'uiux',
+          title: 'Modul 1 - Pengenalan UI/UX',
+          type: 'pdf',
+          description: 'Pengenalan dasar UI/UX dan perbedaannya',
+          url: 'https://example.com/modul1.pdf',
+        ),
+        CourseMaterial(
+          id: 'm2',
+          courseId: 'uiux',
+          title: 'Video - 10 Heuristic Nielsen',
+          type: 'video',
+          description: 'Penjelasan lengkap 10 prinsip heuristik',
+          url: 'https://youtube.com/watch?v=example',
+        ),
+        CourseMaterial(
+          id: 'm3',
+          courseId: 'uiux',
+          title: 'Modul 2 - Wireframing',
+          type: 'pdf',
+          description: 'Cara membuat wireframe yang efektif',
+          url: 'https://example.com/modul2.pdf',
+        ),
+        CourseMaterial(
+          id: 'm4',
+          courseId: 'uiux',
+          title: 'Video - Prototyping dengan Figma',
+          type: 'video',
+          description: 'Tutorial membuat prototype di Figma',
+          url: 'https://youtube.com/watch?v=example2',
+        ),
+      ],
+    ),
+    CourseDetail(
+      id: 'mobile',
+      title: 'Pemrograman Perangkat Bergerak',
+      instructor: 'Dr. Siti Aminah, M.T.',
+      description: 'Mata kuliah ini membahas pengembangan aplikasi mobile menggunakan Flutter.',
+      progress: 0.60,
+      materials: [
+        CourseMaterial(
+          id: 'm5',
+          courseId: 'mobile',
+          title: 'Modul 1 - Pengenalan Flutter',
+          type: 'pdf',
+          description: 'Dasar-dasar Flutter dan Dart',
+          url: 'https://example.com/flutter1.pdf',
+        ),
+        CourseMaterial(
+          id: 'm6',
+          courseId: 'mobile',
+          title: 'Video - Widget Basics',
+          type: 'video',
+          description: 'Memahami widget dasar Flutter',
+          url: 'https://youtube.com/watch?v=flutter',
+        ),
+      ],
+    ),
+  ];
+
+  static CourseDetail? getCourseById(String id) {
+    try {
+      return courses.firstWhere((c) => c.id == id);
+    } catch (e) {
+      return null;
+    }
+  }
+}

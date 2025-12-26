@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-
+import 'package:celeoe/core/theme.dart';
 import 'package:celeoe/core/dummy_data.dart';
-import 'package:celeoe/features/dashboard/widgets/course_progress_item.dart';
+import 'package:celeoe/features/courses/course_detail_screen.dart';
 
 class MyClassesScreen extends StatelessWidget {
   const MyClassesScreen({super.key});
@@ -10,10 +10,92 @@ class MyClassesScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return ListView.builder(
       padding: const EdgeInsets.all(20),
-      itemCount: DummyData.courses.length,
+      itemCount: CourseData.courses.length,
       itemBuilder: (context, index) {
-        return CourseProgressItem(course: DummyData.courses[index]);
+        final course = CourseData.courses[index];
+        return _buildCourseCard(context, course);
       },
+    );
+  }
+
+  Widget _buildCourseCard(BuildContext context, CourseDetail course) {
+    return InkWell(
+      onTap: () {
+        Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (context) => CourseDetailScreen(course: course),
+          ),
+        );
+      },
+      child: Container(
+        margin: const EdgeInsets.only(bottom: 16),
+        padding: const EdgeInsets.all(16),
+        decoration: BoxDecoration(
+          color: Colors.white,
+          borderRadius: BorderRadius.circular(12),
+          boxShadow: [
+            BoxShadow(
+              color: Colors.black.withAlpha(10),
+              blurRadius: 4,
+              offset: const Offset(0, 2),
+            ),
+          ],
+        ),
+        child: Row(
+          children: [
+            // Course Icon
+            Container(
+              width: 50,
+              height: 50,
+              decoration: BoxDecoration(
+                color: AppColors.primary.withAlpha(25),
+                borderRadius: BorderRadius.circular(10),
+              ),
+              child: const Icon(Icons.book, color: AppColors.primary, size: 28),
+            ),
+            const SizedBox(width: 16),
+            Expanded(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    course.title,
+                    style: AppTextStyles.body.copyWith(fontWeight: FontWeight.w600),
+                    maxLines: 2,
+                    overflow: TextOverflow.ellipsis,
+                  ),
+                  const SizedBox(height: 4),
+                  Text(
+                    course.instructor,
+                    style: AppTextStyles.subtitle.copyWith(fontSize: 12),
+                  ),
+                  const SizedBox(height: 8),
+                  Row(
+                    children: [
+                      Expanded(
+                        child: LinearProgressIndicator(
+                          value: course.progress,
+                          backgroundColor: AppColors.grey,
+                          color: AppColors.green,
+                          minHeight: 6,
+                          borderRadius: BorderRadius.circular(3),
+                        ),
+                      ),
+                      const SizedBox(width: 8),
+                      Text(
+                        '${(course.progress * 100).toInt()}%',
+                        style: AppTextStyles.subtitle.copyWith(fontSize: 11),
+                      ),
+                    ],
+                  ),
+                ],
+              ),
+            ),
+            const Icon(Icons.chevron_right, color: AppColors.textSecondary),
+          ],
+        ),
+      ),
     );
   }
 }
