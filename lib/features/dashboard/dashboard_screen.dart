@@ -18,6 +18,12 @@ class DashboardScreen extends StatefulWidget {
 class _DashboardScreenState extends State<DashboardScreen> {
   int _selectedIndex = 0;
 
+  void _goToTab(int index) {
+    setState(() {
+      _selectedIndex = index;
+    });
+  }
+
   String _getAppBarTitle() {
     switch (_selectedIndex) {
       case 1:
@@ -34,7 +40,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
   @override
   Widget build(BuildContext context) {
     final List<Widget> screens = [
-      const DashboardContent(),
+      DashboardContent(onNotificationTap: () => _goToTab(2)),
       const MyClassesScreen(),
       const NotificationsScreen(),
       const ProfileScreen(),
@@ -90,7 +96,9 @@ class _DashboardScreenState extends State<DashboardScreen> {
 }
 
 class DashboardContent extends StatelessWidget {
-  const DashboardContent({super.key});
+  final VoidCallback onNotificationTap;
+
+  const DashboardContent({super.key, required this.onNotificationTap});
 
   @override
   Widget build(BuildContext context) {
@@ -128,7 +136,7 @@ class DashboardContent extends StatelessWidget {
                 const Spacer(),
                 IconButton(
                   icon: const Icon(Icons.notifications_none),
-                  onPressed: () {},
+                  onPressed: onNotificationTap,
                   color: AppColors.textPrimary,
                 )
               ],
