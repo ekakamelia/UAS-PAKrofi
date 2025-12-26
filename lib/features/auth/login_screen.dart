@@ -183,7 +183,32 @@ class _LoginScreenState extends State<LoginScreen> {
                   // Bantuan Link
                   Center(
                     child: TextButton(
-                      onPressed: () {},
+                      onPressed: () {
+                        showDialog(
+                          context: context,
+                          builder: (context) => AlertDialog(
+                            shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
+                            title: Text('Bantuan Login', style: AppTextStyles.title),
+                            content: Column(
+                              mainAxisSize: MainAxisSize.min,
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                _buildHelpItem(Icons.email, 'Lupa Password?', 'Hubungi admin kampus'),
+                                const SizedBox(height: 12),
+                                _buildHelpItem(Icons.phone, 'Bantuan Teknis', '(022) 123-4567'),
+                                const SizedBox(height: 12),
+                                _buildHelpItem(Icons.chat, 'WhatsApp', '+62 812-3456-7890'),
+                              ],
+                            ),
+                            actions: [
+                              TextButton(
+                                onPressed: () => Navigator.pop(context),
+                                child: Text('Tutup', style: TextStyle(color: AppColors.primary)),
+                              ),
+                            ],
+                          ),
+                        );
+                      },
                       child: Text(
                         'Bantuan ?',
                         style: AppTextStyles.body.copyWith(
@@ -219,6 +244,22 @@ class _LoginScreenState extends State<LoginScreen> {
         fontWeight: FontWeight.bold,
         color: AppColors.textSecondary,
       ),
+    );
+  }
+
+  Widget _buildHelpItem(IconData icon, String title, String subtitle) {
+    return Row(
+      children: [
+        Icon(icon, color: AppColors.primary, size: 24),
+        const SizedBox(width: 12),
+        Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Text(title, style: AppTextStyles.body.copyWith(fontWeight: FontWeight.w600)),
+            Text(subtitle, style: AppTextStyles.subtitle.copyWith(fontSize: 12)),
+          ],
+        ),
+      ],
     );
   }
 }
