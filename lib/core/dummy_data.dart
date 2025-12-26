@@ -16,9 +16,17 @@ class Course {
 class Assignment {
   final String courseName;
   final String title;
+  final String description;
   final DateTime deadline;
+  final String status; // 'Belum Disubmit', 'Disubmit', 'Dinilai'
 
-  const Assignment({required this.courseName, required this.title, required this.deadline});
+  const Assignment({
+    required this.courseName, 
+    required this.title, 
+    required this.description,
+    required this.deadline,
+    this.status = 'Belum Disubmit',
+  });
 }
 
 class Announcement {
@@ -50,11 +58,13 @@ class DummyData {
     Assignment(
       courseName: 'Desain Tampilan & Pengalaman Pengguna',
       title: 'Tugas 01 - UID Android Mobile Game',
+      description: 'Buatlah desain antarmuka pengguna (UI) untuk game mobile berbasis Android. Sertakan wireframe dan mockup high-fidelity.',
       deadline: DateTime.now().add(const Duration(days: 2)),
     ),
      Assignment(
       courseName: 'Pemrograman Perangkat Bergerak',
       title: 'Tugas 02 - Layout Flutter',
+      description: 'Implementasikan layout dashboard menggunakan Flutter Widget seperti Row, Column, dan Stack.',
       deadline: DateTime.now().add(const Duration(days: 5)),
     ),
   ];

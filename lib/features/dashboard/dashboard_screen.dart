@@ -6,6 +6,7 @@ import 'package:celeoe/features/dashboard/widgets/announcement_banner.dart';
 import 'package:celeoe/features/dashboard/widgets/course_progress_item.dart';
 import 'package:celeoe/features/classes/my_classes_screen.dart';
 import 'package:celeoe/features/notifications/notifications_screen.dart';
+import 'package:celeoe/features/profile/profile_screen.dart';
 
 class DashboardScreen extends StatefulWidget {
   const DashboardScreen({super.key});
@@ -17,12 +18,26 @@ class DashboardScreen extends StatefulWidget {
 class _DashboardScreenState extends State<DashboardScreen> {
   int _selectedIndex = 0;
 
+  String _getAppBarTitle() {
+    switch (_selectedIndex) {
+      case 1:
+        return 'Kelas Saya';
+      case 2:
+        return 'Notifikasi';
+      case 3:
+        return 'Profil';
+      default:
+        return '';
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     final List<Widget> screens = [
       const DashboardContent(),
       const MyClassesScreen(),
       const NotificationsScreen(),
+      const ProfileScreen(),
     ];
 
     return Scaffold(
@@ -30,7 +45,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
       appBar: _selectedIndex != 0 
           ? AppBar(
               title: Text(
-                _selectedIndex == 1 ? 'Kelas Saya' : 'Notifikasi',
+                _getAppBarTitle(),
                 style: AppTextStyles.title,
               ),
               backgroundColor: Colors.white,
@@ -43,6 +58,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
       ),
       bottomNavigationBar: BottomNavigationBar(
         currentIndex: _selectedIndex,
+        type: BottomNavigationBarType.fixed,
         onTap: (index) {
           setState(() {
             _selectedIndex = index;
@@ -59,9 +75,13 @@ class _DashboardScreenState extends State<DashboardScreen> {
              icon: Icon(Icons.class_outlined),
              label: 'Kelas Saya',
           ),
-           BottomNavigationBarItem(
+          BottomNavigationBarItem(
             icon: Icon(Icons.notifications),
             label: 'Notifikasi',
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.person_outline),
+            label: 'Profil',
           ),
         ],
       ),
