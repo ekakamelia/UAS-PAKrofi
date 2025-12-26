@@ -10,6 +10,7 @@ import 'package:celeoe/features/settings/settings_notification_screen.dart';
 import 'package:celeoe/features/settings/change_password_screen.dart';
 import 'package:celeoe/features/settings/language_screen.dart';
 import 'package:celeoe/features/settings/help_screen.dart';
+import 'package:celeoe/features/settings/theme_settings_screen.dart';
 import 'package:celeoe/features/profile/edit_profile_screen.dart';
 
 class ProfileScreen extends StatelessWidget {
@@ -215,6 +216,17 @@ class ProfileScreen extends StatelessWidget {
                     Navigator.push(
                       context,
                       MaterialPageRoute(builder: (context) => const LanguageScreen()),
+                    );
+                  },
+                ),
+                _buildSettingsTileWithContext(
+                  context: context,
+                  icon: Icons.dark_mode_outlined,
+                  title: 'Tampilan (Dark Mode)',
+                  onTap: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (context) => const ThemeSettingsScreen()),
                     );
                   },
                 ),
