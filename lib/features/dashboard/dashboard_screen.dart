@@ -39,6 +39,8 @@ class _DashboardScreenState extends State<DashboardScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final isDark = Theme.of(context).brightness == Brightness.dark;
+    
     final List<Widget> screens = [
       DashboardContent(onNotificationTap: () => _goToTab(2)),
       const MyClassesScreen(),
@@ -47,16 +49,18 @@ class _DashboardScreenState extends State<DashboardScreen> {
     ];
 
     return Scaffold(
-      backgroundColor: AppColors.background,
+      backgroundColor: isDark ? const Color(0xFF121212) : AppColors.background,
       appBar: _selectedIndex != 0 
           ? AppBar(
               title: Text(
                 _getAppBarTitle(),
-                style: AppTextStyles.title,
+                style: AppTextStyles.title.copyWith(
+                  color: isDark ? Colors.white : AppColors.textPrimary,
+                ),
               ),
-              backgroundColor: Colors.white,
+              backgroundColor: isDark ? const Color(0xFF1E1E1E) : Colors.white,
               elevation: 0,
-              iconTheme: const IconThemeData(color: AppColors.textPrimary),
+              iconTheme: IconThemeData(color: isDark ? Colors.white : AppColors.textPrimary),
             )
           : null,
       body: SafeArea(
@@ -65,13 +69,14 @@ class _DashboardScreenState extends State<DashboardScreen> {
       bottomNavigationBar: BottomNavigationBar(
         currentIndex: _selectedIndex,
         type: BottomNavigationBarType.fixed,
+        backgroundColor: isDark ? const Color(0xFF1E1E1E) : Colors.white,
         onTap: (index) {
           setState(() {
             _selectedIndex = index;
           });
         },
         selectedItemColor: AppColors.primary,
-        unselectedItemColor: AppColors.textSecondary,
+        unselectedItemColor: isDark ? Colors.white60 : AppColors.textSecondary,
         items: const [
           BottomNavigationBarItem(
             icon: Icon(Icons.home),
@@ -102,6 +107,8 @@ class DashboardContent extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final isDark = Theme.of(context).brightness == Brightness.dark;
+    
     return SingleChildScrollView(
       child: Padding(
         padding: const EdgeInsets.all(20.0),
@@ -122,11 +129,15 @@ class DashboardContent extends StatelessWidget {
                   children: [
                     Text(
                       DummyData.currentUser.name,
-                      style: AppTextStyles.title,
+                      style: AppTextStyles.title.copyWith(
+                        color: isDark ? Colors.white : AppColors.textPrimary,
+                      ),
                     ),
                     Text(
                       DummyData.currentUser.role,
-                      style: AppTextStyles.subtitle,
+                      style: AppTextStyles.subtitle.copyWith(
+                        color: isDark ? Colors.white60 : AppColors.textSecondary,
+                      ),
                     ),
                   ],
                 ),
@@ -134,7 +145,7 @@ class DashboardContent extends StatelessWidget {
                 IconButton(
                   icon: const Icon(Icons.notifications_none),
                   onPressed: onNotificationTap,
-                  color: AppColors.textPrimary,
+                  color: isDark ? Colors.white : AppColors.textPrimary,
                 )
               ],
             ),
@@ -155,15 +166,18 @@ class DashboardContent extends StatelessWidget {
             // 4. Course Progress
             Text(
               'Progres Kelas',
-              style: AppTextStyles.title.copyWith(fontSize: 18),
+              style: AppTextStyles.title.copyWith(
+                fontSize: 18,
+                color: isDark ? Colors.white : AppColors.textPrimary,
+              ),
             ),
             const SizedBox(height: 12),
             Container(
               padding: const EdgeInsets.all(16),
               decoration: BoxDecoration(
-                color: Colors.white,
+                color: isDark ? const Color(0xFF1E1E1E) : Colors.white,
                 borderRadius: BorderRadius.circular(12),
-                boxShadow: const [
+                boxShadow: isDark ? null : const [
                   BoxShadow(color: Colors.black12, blurRadius: 4, offset: Offset(0,2))
                 ]
               ),
