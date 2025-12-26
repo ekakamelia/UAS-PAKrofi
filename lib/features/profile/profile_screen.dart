@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:celeoe/core/theme.dart';
 import 'package:celeoe/core/dummy_data.dart';
 import 'package:celeoe/features/auth/login_screen.dart';
+import 'package:celeoe/features/gradebook/gradebook_screen.dart';
 
 class ProfileScreen extends StatelessWidget {
   const ProfileScreen({super.key});
@@ -101,6 +102,25 @@ class ProfileScreen extends StatelessWidget {
                   icon: Icons.person_outline,
                   title: 'Dosen Wali',
                   value: 'Dr. Ahmad Yusuf, M.Kom',
+                ),
+
+                const SizedBox(height: 24),
+
+                Text(
+                  'Akademik',
+                  style: AppTextStyles.title,
+                ),
+                const SizedBox(height: 12),
+                _buildSettingsTileWithContext(
+                  context: context,
+                  icon: Icons.grade_outlined,
+                  title: 'Nilai & IPK',
+                  onTap: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (context) => const GradebookScreen()),
+                    );
+                  },
                 ),
 
                 const SizedBox(height: 24),
@@ -231,6 +251,38 @@ class ProfileScreen extends StatelessWidget {
               child: Text(
                 title,
                 style: AppTextStyles.body,
+              ),
+            ),
+            const Icon(Icons.chevron_right, color: AppColors.textSecondary),
+          ],
+        ),
+      ),
+    );
+  }
+
+  Widget _buildSettingsTileWithContext({
+    required BuildContext context,
+    required IconData icon,
+    required String title,
+    required VoidCallback onTap,
+  }) {
+    return InkWell(
+      onTap: onTap,
+      child: Container(
+        margin: const EdgeInsets.only(bottom: 8),
+        padding: const EdgeInsets.all(16),
+        decoration: BoxDecoration(
+          color: Colors.white,
+          borderRadius: BorderRadius.circular(12),
+        ),
+        child: Row(
+          children: [
+            Icon(icon, color: AppColors.primary, size: 24),
+            const SizedBox(width: 16),
+            Expanded(
+              child: Text(
+                title,
+                style: AppTextStyles.body.copyWith(fontWeight: FontWeight.w600),
               ),
             ),
             const Icon(Icons.chevron_right, color: AppColors.textSecondary),

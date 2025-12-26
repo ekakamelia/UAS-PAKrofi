@@ -77,3 +77,66 @@ class DummyData {
     ),
   ];
 }
+
+class Grade {
+  final String courseName;
+  final String semester;
+  final int sks;
+  final String grade; // A, B+, B, C+, C, D, E
+  final double gradePoint; // 4.0, 3.5, 3.0, etc.
+
+  const Grade({
+    required this.courseName,
+    required this.semester,
+    required this.sks,
+    required this.grade,
+    required this.gradePoint,
+  });
+}
+
+class GradeData {
+  static const List<Grade> grades = [
+    // Semester 1
+    Grade(courseName: 'Algoritma & Pemrograman', semester: 'Semester 1', sks: 3, grade: 'A', gradePoint: 4.0),
+    Grade(courseName: 'Matematika Dasar', semester: 'Semester 1', sks: 3, grade: 'B+', gradePoint: 3.5),
+    Grade(courseName: 'Fisika Dasar', semester: 'Semester 1', sks: 2, grade: 'A', gradePoint: 4.0),
+    Grade(courseName: 'Bahasa Indonesia', semester: 'Semester 1', sks: 2, grade: 'A', gradePoint: 4.0),
+    
+    // Semester 2
+    Grade(courseName: 'Struktur Data', semester: 'Semester 2', sks: 3, grade: 'A', gradePoint: 4.0),
+    Grade(courseName: 'Basis Data', semester: 'Semester 2', sks: 3, grade: 'B+', gradePoint: 3.5),
+    Grade(courseName: 'Pemrograman Web', semester: 'Semester 2', sks: 3, grade: 'A', gradePoint: 4.0),
+    Grade(courseName: 'Statistika', semester: 'Semester 2', sks: 2, grade: 'B', gradePoint: 3.0),
+    
+    // Semester 3
+    Grade(courseName: 'Pemrograman Berorientasi Objek', semester: 'Semester 3', sks: 3, grade: 'A', gradePoint: 4.0),
+    Grade(courseName: 'Sistem Operasi', semester: 'Semester 3', sks: 3, grade: 'B+', gradePoint: 3.5),
+    Grade(courseName: 'Jaringan Komputer', semester: 'Semester 3', sks: 3, grade: 'A', gradePoint: 4.0),
+  ];
+
+  static double calculateIPK() {
+    double totalPoints = 0;
+    int totalSKS = 0;
+    for (var grade in grades) {
+      totalPoints += grade.gradePoint * grade.sks;
+      totalSKS += grade.sks;
+    }
+    return totalSKS > 0 ? totalPoints / totalSKS : 0;
+  }
+
+  static int get totalSKS {
+    int total = 0;
+    for (var grade in grades) {
+      total += grade.sks;
+    }
+    return total;
+  }
+
+  static List<String> get semesters {
+    return grades.map((g) => g.semester).toSet().toList();
+  }
+
+  static List<Grade> getGradesBySemester(String semester) {
+    return grades.where((g) => g.semester == semester).toList();
+  }
+}
