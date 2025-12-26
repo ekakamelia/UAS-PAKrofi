@@ -4,6 +4,7 @@ import 'package:celeoe/core/dummy_data.dart';
 import 'package:celeoe/features/auth/login_screen.dart';
 import 'package:celeoe/features/gradebook/gradebook_screen.dart';
 import 'package:celeoe/features/forum/forum_screen.dart';
+import 'package:celeoe/features/cbt/cbt_screen.dart';
 
 class ProfileScreen extends StatelessWidget {
   const ProfileScreen({super.key});
@@ -131,6 +132,17 @@ class ProfileScreen extends StatelessWidget {
                     Navigator.push(
                       context,
                       MaterialPageRoute(builder: (context) => const ForumScreen()),
+                    );
+                  },
+                ),
+                _buildSettingsTileWithContext(
+                  context: context,
+                  icon: Icons.quiz_outlined,
+                  title: 'Kuis & Ujian (CBT)',
+                  onTap: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (context) => const CBTScreen()),
                     );
                   },
                 ),

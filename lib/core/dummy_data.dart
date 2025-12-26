@@ -247,3 +247,99 @@ class ForumData {
     return messages.where((m) => m.threadId == threadId).toList();
   }
 }
+
+// Quiz/CBT Models
+class QuizQuestion {
+  final String id;
+  final String question;
+  final List<String> options;
+  final int correctIndex;
+
+  const QuizQuestion({
+    required this.id,
+    required this.question,
+    required this.options,
+    required this.correctIndex,
+  });
+}
+
+class Quiz {
+  final String id;
+  final String title;
+  final String courseName;
+  final int durationMinutes;
+  final List<QuizQuestion> questions;
+  final String status; // 'Belum Dikerjakan', 'Sedang Dikerjakan', 'Selesai'
+
+  const Quiz({
+    required this.id,
+    required this.title,
+    required this.courseName,
+    required this.durationMinutes,
+    required this.questions,
+    this.status = 'Belum Dikerjakan',
+  });
+}
+
+class QuizData {
+  static final List<Quiz> quizzes = [
+    Quiz(
+      id: 'q1',
+      title: 'Kuis 1 - Dasar UI/UX',
+      courseName: 'Desain UI/UX',
+      durationMinutes: 30,
+      questions: [
+        QuizQuestion(
+          id: 'q1_1',
+          question: 'Apa kepanjangan dari UI?',
+          options: ['User Interface', 'User Interaction', 'User Integration', 'User Information'],
+          correctIndex: 0,
+        ),
+        QuizQuestion(
+          id: 'q1_2',
+          question: 'Siapa yang menciptakan 10 Heuristic Principles?',
+          options: ['Don Norman', 'Jakob Nielsen', 'Steve Jobs', 'Bill Gates'],
+          correctIndex: 1,
+        ),
+        QuizQuestion(
+          id: 'q1_3',
+          question: 'Apa prinsip pertama dari Heuristic Nielsen?',
+          options: ['User Control', 'Visibility of System Status', 'Error Prevention', 'Consistency'],
+          correctIndex: 1,
+        ),
+        QuizQuestion(
+          id: 'q1_4',
+          question: 'Wireframe adalah...',
+          options: ['Desain visual lengkap', 'Kerangka dasar layout', 'Prototype interaktif', 'Dokumen spesifikasi'],
+          correctIndex: 1,
+        ),
+        QuizQuestion(
+          id: 'q1_5',
+          question: 'Warna yang cocok untuk tombol error/bahaya adalah...',
+          options: ['Hijau', 'Biru', 'Merah', 'Kuning'],
+          correctIndex: 2,
+        ),
+      ],
+    ),
+    Quiz(
+      id: 'q2',
+      title: 'UTS - Sistem Operasi',
+      courseName: 'Sistem Operasi',
+      durationMinutes: 60,
+      questions: [
+        QuizQuestion(
+          id: 'q2_1',
+          question: 'Kernel adalah...',
+          options: ['Program aplikasi', 'Inti sistem operasi', 'Perangkat keras', 'Antivirus'],
+          correctIndex: 1,
+        ),
+        QuizQuestion(
+          id: 'q2_2',
+          question: 'Algoritma penjadwalan FCFS adalah...',
+          options: ['First Come First Serve', 'Fast CPU First Serve', 'First Come Fast Serve', 'Fast Come First Serve'],
+          correctIndex: 0,
+        ),
+      ],
+    ),
+  ];
+}
