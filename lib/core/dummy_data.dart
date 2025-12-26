@@ -459,3 +459,65 @@ class CourseData {
     }
   }
 }
+
+// Notification Models
+class AppNotification {
+  final String id;
+  final String title;
+  final String message;
+  final String type; // 'assignment', 'announcement', 'grade', 'forum'
+  final DateTime createdAt;
+  final bool isRead;
+
+  const AppNotification({
+    required this.id,
+    required this.title,
+    required this.message,
+    required this.type,
+    required this.createdAt,
+    this.isRead = false,
+  });
+}
+
+class NotificationData {
+  static final List<AppNotification> notifications = [
+    AppNotification(
+      id: 'n1',
+      title: 'Tugas Baru',
+      message: 'Tugas baru untuk mata kuliah UI/UX: Tugas 01 - UID Android Mobile Game',
+      type: 'assignment',
+      createdAt: DateTime.now().subtract(const Duration(hours: 2)),
+    ),
+    AppNotification(
+      id: 'n2',
+      title: 'Pengumuman',
+      message: 'Server akan mengalami maintenance pada hari Sabtu pukul 22:00',
+      type: 'announcement',
+      createdAt: DateTime.now().subtract(const Duration(hours: 5)),
+    ),
+    AppNotification(
+      id: 'n3',
+      title: 'Nilai Keluar',
+      message: 'Nilai Kuis 1 - Dasar UI/UX sudah tersedia. Cek di halaman Gradebook.',
+      type: 'grade',
+      createdAt: DateTime.now().subtract(const Duration(days: 1)),
+      isRead: true,
+    ),
+    AppNotification(
+      id: 'n4',
+      title: 'Forum Baru',
+      message: 'Dr. Budi Santoso memulai diskusi baru: Prinsip Heuristik Nielsen',
+      type: 'forum',
+      createdAt: DateTime.now().subtract(const Duration(days: 1)),
+      isRead: true,
+    ),
+    AppNotification(
+      id: 'n5',
+      title: 'Deadline Mendekat',
+      message: 'Tugas "Layout Flutter" akan berakhir dalam 2 hari.',
+      type: 'assignment',
+      createdAt: DateTime.now().subtract(const Duration(days: 2)),
+      isRead: true,
+    ),
+  ];
+}
