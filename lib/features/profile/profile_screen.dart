@@ -10,6 +10,7 @@ import 'package:celeoe/features/settings/settings_notification_screen.dart';
 import 'package:celeoe/features/settings/change_password_screen.dart';
 import 'package:celeoe/features/settings/language_screen.dart';
 import 'package:celeoe/features/settings/help_screen.dart';
+import 'package:celeoe/features/profile/edit_profile_screen.dart';
 
 class ProfileScreen extends StatelessWidget {
   const ProfileScreen({super.key});
@@ -70,6 +71,26 @@ class ProfileScreen extends StatelessWidget {
                     style: AppTextStyles.body.copyWith(
                       color: Colors.white,
                       fontSize: 12,
+                    ),
+                  ),
+                ),
+                const SizedBox(height: 16),
+                OutlinedButton.icon(
+                  onPressed: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (context) => const EditProfileScreen()),
+                    );
+                  },
+                  icon: const Icon(Icons.edit, color: Colors.white, size: 18),
+                  label: Text(
+                    'Edit Profil',
+                    style: AppTextStyles.body.copyWith(color: Colors.white),
+                  ),
+                  style: OutlinedButton.styleFrom(
+                    side: const BorderSide(color: Colors.white70),
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(20),
                     ),
                   ),
                 ),
