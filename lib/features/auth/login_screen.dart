@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:celeoe/core/theme.dart';
-import 'package:celeoe/features/dashboard/dashboard_screen.dart'; // We'll create this next
+import 'package:celeoe/features/dashboard/dashboard_screen.dart';
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
@@ -13,245 +13,317 @@ class _LoginScreenState extends State<LoginScreen> {
   final _emailController = TextEditingController();
   final _passwordController = TextEditingController();
   bool _obscurePassword = true;
+  bool _isLoading = false;
+
+  void _handleLogin() {
+    setState(() => _isLoading = true);
+    Future.delayed(const Duration(milliseconds: 800), () {
+      setState(() => _isLoading = false);
+      Navigator.pushReplacement(
+        context, 
+        MaterialPageRoute(builder: (context) => const DashboardScreen()),
+      );
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.white,
-      body: SingleChildScrollView(
-        child: Column(
-          children: [
-            // API/Header Section
-            Stack(
-              clipBehavior: Clip.none,
-              alignment: Alignment.center,
-              children: [
-                // 1. Header Image (Building)
-                Container(
-                  height: 280,
-                  width: double.infinity,
-                  decoration: const BoxDecoration(
-                    color: AppColors.grey, // Fallback color
-                    image: DecorationImage(
-                      image: AssetImage('assets/images/BG.jpg'),
-                      fit: BoxFit.cover,
-                      alignment: Alignment.topCenter,
-                    ),
-                  ),
-                  child: Container(
-                    decoration: BoxDecoration(
-                      gradient: LinearGradient(
-                        begin: Alignment.topCenter,
-                        end: Alignment.bottomCenter,
-                        colors: [
-                          Colors.transparent,
-                          Colors.black.withAlpha(30),
-                        ],
-                      ),
-                    ),
-                  ),
-                ),
-                // 2. White Arc/Curve at bottom of image
-                Positioned(
-                  bottom: -1,
-                  left: 0,
-                  right: 0,
-                  child: Container(
-                    height: 40,
-                    decoration: const BoxDecoration(
-                      color: Colors.white,
-                      borderRadius: BorderRadius.only(
-                        topLeft: Radius.circular(60),
-                        topRight: Radius.circular(60),
-                      ),
-                    ),
-                  ),
-                ),
-                // 3. Logo Overlay
-                Positioned(
-                  bottom: -40,
-                  child: Container(
-                    width: 80,
-                    height: 80,
-                    decoration: BoxDecoration(
-                      color: Colors.white,
-                      shape: BoxShape.circle,
-                      boxShadow: [
-                         BoxShadow(
-                          color: Colors.black12,
-                          blurRadius: 10,
-                          offset: Offset(0, 5),
-                        ),
-                      ],
-                    ),
-                    child: ClipOval(
-                      child: Image.asset(
-                        'assets/images/LOGO.png',
-                        fit: BoxFit.cover,
-                      ),
-                    ),
-                  ),
-                ),
-              ],
+      body: Stack(
+        children: [
+          // Full Background Image
+          Container(
+            height: double.infinity,
+            width: double.infinity,
+            decoration: const BoxDecoration(
+              image: DecorationImage(
+                image: AssetImage('assets/images/BG.jpg'),
+                fit: BoxFit.cover,
+              ),
             ),
-            
-            const SizedBox(height: 60),
-
-            // Login Text
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 24.0),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    'Login',
-                    style: AppTextStyles.header.copyWith(
-                      color: Colors.black,
-                      fontSize: 28,
-                    ),
-                  ),
-                  
-                  const SizedBox(height: 30),
-
-                  // Email 365 Field
-                  _buildLabel('Email 365'),
-                  TextField(
-                    controller: _emailController,
-                    decoration: InputDecoration(
-                       isDense: true,
-                       contentPadding: const EdgeInsets.symmetric(vertical: 8),
-                       enabledBorder: const UnderlineInputBorder(
-                         borderSide: BorderSide(color: AppColors.primary, width: 2),
-                       ),
-                       focusedBorder: const UnderlineInputBorder(
-                         borderSide: BorderSide(color: AppColors.primary, width: 2),
-                       ),
-                    ),
-                  ),
-
-                  const SizedBox(height: 20),
-
-                  // Password Field
-                  _buildLabel('Password'),
-                  TextField(
-                    controller: _passwordController,
-                    obscureText: _obscurePassword,
-                    decoration: InputDecoration(
-                       isDense: true,
-                       contentPadding: const EdgeInsets.symmetric(vertical: 8),
-                         enabledBorder: const UnderlineInputBorder(
-                         borderSide: BorderSide(color: AppColors.primary, width: 2),
-                       ),
-                       focusedBorder: const UnderlineInputBorder(
-                         borderSide: BorderSide(color: AppColors.primary, width: 2),
-                       ),
-                       suffixIcon: IconButton(
-                         icon: Icon(
-                           _obscurePassword ? Icons.visibility_off_outlined : Icons.visibility_outlined,
-                           color: Colors.black,
-                         ),
-                         onPressed: () {
-                           setState(() {
-                             _obscurePassword = !_obscurePassword;
-                           });
-                         },
-                       ),
-                    ),
-                  ),
-
-                  const SizedBox(height: 40),
-
-                  // Login Button
-                  SizedBox(
-                    width: double.infinity,
-                    height: 50,
-                    child: ElevatedButton(
-                      onPressed: () {
-                         // Navigate to Dashboard
-                         Navigator.pushReplacement(
-                           context, 
-                           MaterialPageRoute(builder: (context) => const DashboardScreen()),
-                         );
-                      },
-                      style: ElevatedButton.styleFrom(
-                        backgroundColor: AppColors.primary,
-                        foregroundColor: Colors.white,
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(25),
-                        ),
-                      ),
-                      child: Text(
-                        'Log In',
-                        style: AppTextStyles.button,
-                      ),
-                    ),
-                  ),
-
-                  const SizedBox(height: 20),
-
-                  // Bantuan Link
-                  Center(
-                    child: TextButton(
-                      onPressed: () {
-                        showDialog(
-                          context: context,
-                          builder: (context) => AlertDialog(
-                            shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
-                            title: Text('Bantuan Login', style: AppTextStyles.title),
-                            content: Column(
-                              mainAxisSize: MainAxisSize.min,
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                _buildHelpItem(Icons.email, 'Lupa Password?', 'Hubungi admin kampus'),
-                                const SizedBox(height: 12),
-                                _buildHelpItem(Icons.phone, 'Bantuan Teknis', '(022) 123-4567'),
-                                const SizedBox(height: 12),
-                                _buildHelpItem(Icons.chat, 'WhatsApp', '+62 812-3456-7890'),
-                              ],
-                            ),
-                            actions: [
-                              TextButton(
-                                onPressed: () => Navigator.pop(context),
-                                child: Text('Tutup', style: TextStyle(color: AppColors.primary)),
-                              ),
-                            ],
-                          ),
-                        );
-                      },
-                      child: Text(
-                        'Bantuan ?',
-                        style: AppTextStyles.body.copyWith(
-                          color: AppColors.primary,
-                        ),
-                      ),
-                    ),
-                  ),
+          ),
+          
+          // Dark Overlay
+          Container(
+            height: double.infinity,
+            width: double.infinity,
+            decoration: BoxDecoration(
+              gradient: LinearGradient(
+                begin: Alignment.topCenter,
+                end: Alignment.bottomCenter,
+                colors: [
+                  Colors.black.withAlpha(100),
+                  Colors.black.withAlpha(180),
                 ],
               ),
             ),
-            
-             const SizedBox(height: 40),
+          ),
 
-            // Bottom Wave
-            SizedBox(
-              height: 100,
-              width: double.infinity,
-              child: CustomPaint(
-                painter: BottomWavePainter(),
+          // Content
+          SafeArea(
+            child: SingleChildScrollView(
+              child: Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 24),
+                child: Column(
+                  children: [
+                    const SizedBox(height: 60),
+                    
+                    // Logo
+                    Container(
+                      width: 100,
+                      height: 100,
+                      decoration: BoxDecoration(
+                        shape: BoxShape.circle,
+                        color: Colors.white,
+                        boxShadow: [
+                          BoxShadow(
+                            color: AppColors.primary.withAlpha(100),
+                            blurRadius: 30,
+                            spreadRadius: 5,
+                          ),
+                        ],
+                      ),
+                      child: ClipOval(
+                        child: Image.asset(
+                          'assets/images/LOGO.png',
+                          fit: BoxFit.cover,
+                        ),
+                      ),
+                    ),
+                    
+                    const SizedBox(height: 20),
+                    
+                    // App Name
+                    Text(
+                      'CeLOE',
+                      style: AppTextStyles.header.copyWith(
+                        color: Colors.white,
+                        fontSize: 36,
+                        fontWeight: FontWeight.bold,
+                        letterSpacing: 4,
+                      ),
+                    ),
+                    Text(
+                      'Learning Management System',
+                      style: AppTextStyles.subtitle.copyWith(
+                        color: Colors.white70,
+                        fontSize: 14,
+                      ),
+                    ),
+                    
+                    const SizedBox(height: 50),
+                    
+                    // Login Card with Glass Effect
+                    Container(
+                      padding: const EdgeInsets.all(28),
+                      decoration: BoxDecoration(
+                        color: Colors.white.withAlpha(240),
+                        borderRadius: BorderRadius.circular(24),
+                        boxShadow: [
+                          BoxShadow(
+                            color: Colors.black.withAlpha(40),
+                            blurRadius: 30,
+                            offset: const Offset(0, 10),
+                          ),
+                        ],
+                      ),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            'Selamat Datang',
+                            style: AppTextStyles.header.copyWith(
+                              fontSize: 24,
+                              color: AppColors.textPrimary,
+                            ),
+                          ),
+                          const SizedBox(height: 4),
+                          Text(
+                            'Masuk untuk melanjutkan',
+                            style: AppTextStyles.subtitle,
+                          ),
+                          
+                          const SizedBox(height: 28),
+                          
+                          // Email Field
+                          Text(
+                            'Email 365',
+                            style: AppTextStyles.body.copyWith(
+                              fontWeight: FontWeight.w600,
+                              fontSize: 13,
+                            ),
+                          ),
+                          const SizedBox(height: 8),
+                          Container(
+                            decoration: BoxDecoration(
+                              color: AppColors.background,
+                              borderRadius: BorderRadius.circular(12),
+                              border: Border.all(color: AppColors.grey),
+                            ),
+                            child: TextField(
+                              controller: _emailController,
+                              decoration: InputDecoration(
+                                hintText: 'nama@student.university.ac.id',
+                                hintStyle: AppTextStyles.subtitle.copyWith(fontSize: 14),
+                                prefixIcon: Icon(Icons.email_outlined, color: AppColors.primary),
+                                border: InputBorder.none,
+                                contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 14),
+                              ),
+                            ),
+                          ),
+                          
+                          const SizedBox(height: 20),
+                          
+                          // Password Field
+                          Text(
+                            'Password',
+                            style: AppTextStyles.body.copyWith(
+                              fontWeight: FontWeight.w600,
+                              fontSize: 13,
+                            ),
+                          ),
+                          const SizedBox(height: 8),
+                          Container(
+                            decoration: BoxDecoration(
+                              color: AppColors.background,
+                              borderRadius: BorderRadius.circular(12),
+                              border: Border.all(color: AppColors.grey),
+                            ),
+                            child: TextField(
+                              controller: _passwordController,
+                              obscureText: _obscurePassword,
+                              decoration: InputDecoration(
+                                hintText: '••••••••',
+                                hintStyle: AppTextStyles.subtitle.copyWith(fontSize: 14),
+                                prefixIcon: Icon(Icons.lock_outline, color: AppColors.primary),
+                                suffixIcon: IconButton(
+                                  icon: Icon(
+                                    _obscurePassword ? Icons.visibility_off_outlined : Icons.visibility_outlined,
+                                    color: AppColors.textSecondary,
+                                  ),
+                                  onPressed: () {
+                                    setState(() => _obscurePassword = !_obscurePassword);
+                                  },
+                                ),
+                                border: InputBorder.none,
+                                contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 14),
+                              ),
+                            ),
+                          ),
+                          
+                          const SizedBox(height: 28),
+                          
+                          // Login Button
+                          SizedBox(
+                            width: double.infinity,
+                            height: 54,
+                            child: ElevatedButton(
+                              onPressed: _isLoading ? null : _handleLogin,
+                              style: ElevatedButton.styleFrom(
+                                backgroundColor: AppColors.primary,
+                                foregroundColor: Colors.white,
+                                elevation: 4,
+                                shadowColor: AppColors.primary.withAlpha(100),
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(14),
+                                ),
+                              ),
+                              child: _isLoading
+                                  ? const SizedBox(
+                                      width: 24,
+                                      height: 24,
+                                      child: CircularProgressIndicator(
+                                        color: Colors.white,
+                                        strokeWidth: 2,
+                                      ),
+                                    )
+                                  : Row(
+                                      mainAxisAlignment: MainAxisAlignment.center,
+                                      children: [
+                                        Text(
+                                          'Masuk',
+                                          style: AppTextStyles.button.copyWith(fontSize: 16),
+                                        ),
+                                        const SizedBox(width: 8),
+                                        const Icon(Icons.arrow_forward, size: 20),
+                                      ],
+                                    ),
+                            ),
+                          ),
+                          
+                          const SizedBox(height: 20),
+                          
+                          // Help Link
+                          Center(
+                            child: TextButton.icon(
+                              onPressed: () => _showHelpDialog(),
+                              icon: Icon(Icons.help_outline, size: 18, color: AppColors.primary),
+                              label: Text(
+                                'Butuh Bantuan?',
+                                style: AppTextStyles.body.copyWith(
+                                  color: AppColors.primary,
+                                  fontWeight: FontWeight.w500,
+                                ),
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                    
+                    const SizedBox(height: 40),
+                    
+                    // Footer
+                    Text(
+                      '© 2024 CeLOE. All rights reserved.',
+                      style: AppTextStyles.subtitle.copyWith(
+                        color: Colors.white54,
+                        fontSize: 12,
+                      ),
+                    ),
+                    
+                    const SizedBox(height: 20),
+                  ],
+                ),
               ),
             ),
-          ],
-        ),
+          ),
+        ],
       ),
     );
   }
 
-  Widget _buildLabel(String text) {
-    return Text(
-      text,
-      style: AppTextStyles.subtitle.copyWith(
-        fontWeight: FontWeight.bold,
-        color: AppColors.textSecondary,
+  void _showHelpDialog() {
+    showDialog(
+      context: context,
+      builder: (context) => AlertDialog(
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
+        title: Row(
+          children: [
+            Icon(Icons.support_agent, color: AppColors.primary, size: 28),
+            const SizedBox(width: 12),
+            Text('Bantuan Login', style: AppTextStyles.title),
+          ],
+        ),
+        content: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            _buildHelpItem(Icons.email_outlined, 'Lupa Password?', 'Hubungi admin kampus'),
+            const Divider(height: 24),
+            _buildHelpItem(Icons.phone_outlined, 'Bantuan Teknis', '(022) 123-4567'),
+            const Divider(height: 24),
+            _buildHelpItem(Icons.chat_bubble_outline, 'WhatsApp', '+62 812-3456-7890'),
+          ],
+        ),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.pop(context),
+            style: TextButton.styleFrom(
+              foregroundColor: AppColors.primary,
+            ),
+            child: const Text('Tutup'),
+          ),
+        ],
       ),
     );
   }
@@ -259,8 +331,15 @@ class _LoginScreenState extends State<LoginScreen> {
   Widget _buildHelpItem(IconData icon, String title, String subtitle) {
     return Row(
       children: [
-        Icon(icon, color: AppColors.primary, size: 24),
-        const SizedBox(width: 12),
+        Container(
+          padding: const EdgeInsets.all(10),
+          decoration: BoxDecoration(
+            color: AppColors.primary.withAlpha(25),
+            borderRadius: BorderRadius.circular(10),
+          ),
+          child: Icon(icon, color: AppColors.primary, size: 22),
+        ),
+        const SizedBox(width: 14),
         Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
@@ -271,48 +350,4 @@ class _LoginScreenState extends State<LoginScreen> {
       ],
     );
   }
-}
-
-class BottomWavePainter extends CustomPainter {
-  @override
-  void paint(Canvas canvas, Size size) {
-    var paint = Paint()
-      ..color = AppColors.primary
-      ..style = PaintingStyle.fill;
-
-    var path = Path();
-    // Start from bottom left
-    path.moveTo(0, size.height);
-    // Line to top left (start of wave)
-    path.lineTo(0, size.height * 0.4);
-
-    // Bezier curve for the wave
-    var firstControlPoint = Offset(size.width * 0.25, -20);
-    var firstEndPoint = Offset(size.width * 0.5, size.height * 0.5);
-    path.quadraticBezierTo(
-      firstControlPoint.dx,
-      firstControlPoint.dy,
-      firstEndPoint.dx,
-      firstEndPoint.dy,
-    );
-
-    var secondControlPoint = Offset(size.width * 0.75, size.height * 1.0);
-    var secondEndPoint = Offset(size.width, size.height * 0.6);
-    path.quadraticBezierTo(
-      secondControlPoint.dx,
-      secondControlPoint.dy,
-      secondEndPoint.dx,
-      secondEndPoint.dy,
-    );
-    
-    // Line to bottom right
-    path.lineTo(size.width, size.height);
-    // Close path
-    path.close();
-
-    canvas.drawPath(path, paint);
-  }
-
-  @override
-  bool shouldRepaint(CustomPainter oldDelegate) => false;
 }
