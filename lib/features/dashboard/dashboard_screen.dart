@@ -113,11 +113,8 @@ class DashboardContent extends StatelessWidget {
               children: [
                 CircleAvatar(
                   radius: 24,
-                  backgroundColor: AppColors.primary,
-                  child: Text(
-                    DummyData.currentUser.name[0],
-                    style: const TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
-                  ),
+                  backgroundColor: Colors.white,
+                  backgroundImage: const AssetImage('assets/images/foto profil.jpeg'),
                 ),
                 const SizedBox(width: 12),
                 Column(

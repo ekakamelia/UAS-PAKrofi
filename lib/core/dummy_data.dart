@@ -39,7 +39,7 @@ class Announcement {
 
 class DummyData {
   static const AppUser currentUser = AppUser(
-    name: 'Dandy Candra Pratama',
+    name: 'Camelia',
     role: 'Mahasiswa',
   );
 
